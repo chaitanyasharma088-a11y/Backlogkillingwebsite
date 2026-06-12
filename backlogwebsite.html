@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backlog Killer | Mission Comeback</title>
+    <style>
+        /* Ultra-Clean Modern Aesthetic */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #09090b; /* Deep matte black */
+            color: #fafafa;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        /* The "Impact" Flash Effect */
+        body.flash {
+            animation: impactFlash 0.6s ease-out;
+        }
+
+        @keyframes impactFlash {
+            0% { background-color: #3b0764; } /* Deep purple flash */
+            100% { background-color: #09090b; }
+        }
+
+        /* The "Bangle" (Badge) */
+        .bangle {
+            margin-top: 50px;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #a855f7; /* Aesthetic purple */
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: 800;
+            font-size: 36px;
+            margin-top: 15px;
+            margin-bottom: 40px;
+            letter-spacing: -1px;
+        }
+
+        /* Clean Glass Container */
+        .container {
+            background: rgba(24, 24, 27, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 40px;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Inputs */
+        .input-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            color: #a1a1aa;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input, select {
+            padding: 14px;
+            background: #09090b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: #fafafa;
+            color: #09090b;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background: #e4e4e7;
+        }
+
+        /* Output Plan */
+        #plan-container {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 40px;
+            margin-bottom: 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .day-card {
+            background: rgba(24, 24, 27, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Off-Day Styling */
+        .day-card.off-day {
+            border-left: 4px solid #a855f7;
+            background: linear-gradient(90deg, rgba(168, 85, 247, 0.05) 0%, rgba(24, 24, 27, 0.8) 100%);
+        }
+        
+        .day-card.off-day .backlog-text {
+            color: #d8b4fe;
+        }
+
+        .day-info { display: flex; flex-direction: column; gap: 6px; }
+        .day-name { font-size: 16px; font-weight: 700; color: #fafafa; }
+        .date-text { font-size: 13px; color: #71717a; }
+        
+        .workload-info { text-align: right; display: flex; flex-direction: column; gap: 6px; }
+        .backlog-text { font-size: 15px; color: #fafafa; font-weight: 700; }
+        .regular-text { font-size: 13px; color: #71717a; }
+
+        .show { opacity: 1; transform: translateY(0) scale(1); }
+
+    </style>
+</head>
+<body>
+
+    <div class="bangle">🔥 Mission Comeback</div>
+    <h1>Backlog Killer Plan</h1>
+
+    <div class="container">
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Total Backlog Classes to Cook</label>
+                <input type="number" id="backlog-total" placeholder="e.g. 15">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="input-group">
+                    <label>Duration of 1 Class</label>
+                    <select id="class-duration">
+                        <option value="1">1 Hour</option>
+                        <option value="1.5">1.5 Hours</option>
+                        <option value="2" selected>2 Hours</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Deadline (Days)</label>
+                    <input type="number" id="days-total" placeholder="e.g. 30">
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="input-group">
+                    <label>Regular Classes (JEE/NEET)</label>
+                    <input type="number" id="regular-classes" value="3">
+                </div>
+                <div class="input-group">
+                    <label>Dedicated Off-Day</label>
+                    <select id="off-day">
+                        <option value="Sunday">Sunday</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="None">None</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="initiateComeback()">Cook My Plan</button>
+    </div>
+
+    <div id="plan-container"></div>
+
+    <script>
+        function initiateComeback() {
+            // Trigger Flash Effect
+            document.body.classList.remove('flash');
+            void document.body.offsetWidth; // Trigger reflow to restart animation
+            document.body.classList.add('flash');
+
+            const container = document.getElementById('plan-container');
+            container.innerHTML = ''; 
+
+            let backlogs = parseInt(document.getElementById('backlog-total').value);
+            let duration = parseFloat(document.getElementById('class-duration').value);
+            let days = parseInt(document.getElementById('days-total').value);
+            let baseRegular = parseInt(document.getElementById('regular-classes').value);
+            let chosenOffDay = document.getElementById('off-day').value;
+
+            if (!backlogs || !days || backlogs <= 0 || days <= 0) {
+                alert("Please enter valid numbers to cook your plan.");
+                return;
+            }
+
+            // Scroll down smoothly
+            setTimeout(() => {
+                window.scrollBy({ top: 400, behavior: 'smooth' });
+            }, 100);
+
+            let currentDate = new Date();
+            let dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            
+            let plan = [];
+            
+            for (let i = 0; i < days; i++) {
+                if (backlogs <= 0) break; 
+
+                let currentDayIndex = currentDate.getDay();
+                let currentMonth = currentDate.getMonth(); 
+                
+                let todayName = dayNames[currentDayIndex];
+                let isOffDay = (todayName === chosenOffDay);
+                let isAfterJune = (currentMonth > 5); 
+                
+                let regularToday = 0;
+                let backlogsToday = 0;
+
+                // Smart Scheduling Logic
+                if (isOffDay) {
+                    regularToday = 0;
+                    backlogsToday = Math.min(3, backlogs); 
+                } else {
+                    regularToday = isAfterJune ? Math.max(0, baseRegular - 1) : baseRegular;
+                    let maxBacklogs = (regularToday <= 2) ? 2 : 1; 
+                    backlogsToday = Math.min(maxBacklogs, backlogs);
+                }
+
+                backlogs -= backlogsToday;
+
+                plan.push({
+                    day: todayName,
+                    date: currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                    reg: regularToday,
+                    back: backlogsToday,
+                    isOffDay: isOffDay
+                });
+
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            // Render UI with staggered pop-in animation
+            plan.forEach((item, index) => {
+                let card = document.createElement('div');
+                card.className = `day-card ${item.isOffDay ? 'off-day' : ''}`;
+
+                let totalHours = item.back * duration;
+                let backlogString = item.back === 0 ? "Rest / Revise" : `+${item.back} Backlogs (${totalHours} hrs)`;
+                let regularString = item.reg === 0 ? "No Regular Classes" : `${item.reg} Reg. Classes`;
+
+                card.innerHTML = `
+                    <div class="day-info">
+                        <span class="day-name">Day ${index + 1}: ${item.day}</span>
+                        <span class="date-text">${item.date}</span>
+                    </div>
+                    <div class="workload-info">
+                        <span class="backlog-text">${backlogString}</span>
+                        <span class="regular-text">${regularString}</span>
+                    </div>
+                `;
+
+                container.appendChild(card);
+
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, index * 80); 
+            });
+        }
+    </script>
+</body>
+</html>
