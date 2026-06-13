@@ -28,11 +28,10 @@
         }
 
         @keyframes impactFlash {
-            0% { background-color: #3b0764; } /* Deep purple flash */
+            0% { background-color: #3b0764; }
             100% { background-color: #09090b; }
         }
 
-        /* The "Bangle" (Badge) */
         .bangle {
             margin-top: 50px;
             padding: 6px 16px;
@@ -43,7 +42,7 @@
             font-weight: 500;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: #a855f7; /* Aesthetic purple */
+            color: #a855f7;
             box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
         }
 
@@ -56,7 +55,6 @@
             letter-spacing: -1px;
         }
 
-        /* Clean Glass Container */
         .container {
             background: rgba(24, 24, 27, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -67,7 +65,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        /* Inputs Grid */
         .input-grid {
             display: flex;
             flex-direction: column;
@@ -96,12 +93,6 @@
             font-family: inherit;
             font-size: 15px;
             outline: none;
-            transition: all 0.2s ease;
-        }
-
-        input:focus, select:focus {
-            border-color: #a855f7;
-            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
         }
 
         button {
@@ -122,19 +113,55 @@
             background: #e4e4e7;
         }
 
-        /* Output Plan Container */
+        /* Dynamic Live Status Alert Box */
+        #live-alert-panel {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 30px;
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(24, 24, 27, 0.8) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .alert-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fca5a5;
+        }
+
+        .alert-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .mini-btn {
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-extend { background: #a855f7; color: white; }
+        .btn-recook { background: #27272a; color: #fafafa; border: 1px solid rgba(255,255,255,0.1); }
+
         #plan-container {
             width: 90%;
             max-width: 600px;
-            margin-top: 40px;
+            margin-top: 20px;
             margin-bottom: 80px;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        /* Dynamic Checklist Card */
+        /* Interactive Checklist Layout */
         .day-card {
+            position: relative;
             background: rgba(24, 24, 27, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
@@ -142,105 +169,89 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 16px;
             opacity: 0;
-            transform: translateY(20px) scale(0.98);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, opacity 0.3s ease;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
         }
 
-        /* Interactive Checklist Layout */
         .card-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
 
-        /* Custom Modern Checkbox styling */
-        .checkbox-wrapper {
-            position: relative;
-            width: 22px;
-            height: 22px;
+        /* Action Status Controls */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
         }
 
-        .checkbox-wrapper input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
+        .status-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #18181b;
+            color: #a1a1aa;
+            font-size: 14px;
             cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-        .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 22px;
-            width: 22px;
-            background-color: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.2s ease;
         }
 
-        .checkbox-wrapper:hover input ~ .checkmark {
-            border-color: #a855f7;
+        .btn-check:hover, .day-card.status-checked .btn-check {
+            background: #22c55e;
+            color: white;
+            border-color: #22c55e;
         }
 
-        .checkbox-wrapper input:checked ~ .checkmark {
-            background-color: #a855f7;
-            border-color: #a855f7;
+        .btn-cross:hover, .day-card.status-crossed .btn-cross {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
         }
 
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-            left: 7px;
-            top: 3px;
-            width: 5px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
+        /* States Layout */
+        .day-card.status-checked {
+            opacity: 0.5;
+            background: rgba(34, 197, 94, 0.03);
         }
+        .day-card.status-checked .backlog-text { text-decoration: line-through; color: #71717a; }
 
-        .checkbox-wrapper input:checked ~ .checkmark:after {
-            display: block;
+        .day-card.status-crossed {
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.03);
         }
+        .day-card.status-crossed .backlog-text { color: #f87171; font-style: italic; }
 
-        /* Completed Status Styles */
-        .day-card.completed {
-            background: rgba(24, 24, 27, 0.3);
-            border-color: rgba(255, 255, 255, 0.02);
-            opacity: 0.6;
-        }
-
-        .day-card.completed .day-name, 
-        .day-card.completed .backlog-text {
-            text-decoration: line-through;
-            color: #71717a;
-        }
-
-        /* Off-Day Styling */
-        .day-card.off-day {
-            border-left: 4px solid #a855f7;
-            background: linear-gradient(90deg, rgba(168, 85, 247, 0.05) 0%, rgba(24, 24, 27, 0.8) 100%);
-        }
-        
-        .day-card.off-day .backlog-text {
-            color: #d8b4fe;
-        }
+        .day-card.off-day { border-left: 4px solid #a855f7; }
 
         .day-info { display: flex; flex-direction: column; gap: 4px; }
-        .day-name { font-size: 16px; font-weight: 700; color: #fafafa; transition: all 0.2s; }
+        .day-name { font-size: 16px; font-weight: 700; }
         .date-text { font-size: 13px; color: #71717a; }
         
         .workload-info { text-align: right; display: flex; flex-direction: column; gap: 4px; }
-        .backlog-text { font-size: 15px; color: #fafafa; font-weight: 700; transition: all 0.2s; }
+        .backlog-text { font-size: 15px; font-weight: 700; }
         .regular-text { font-size: 13px; color: #71717a; }
 
-        .show { opacity: 1; transform: translateY(0) scale(1); }
+        .show { opacity: 1; transform: translateY(0); }
 
+        /* Floating Pop Up Animation Effect */
+        @keyframes thumbsUpPop {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-60px) scale(1.2); opacity: 0; }
+        }
+
+        .floating-emoji {
+            position: absolute;
+            left: 30px;
+            font-size: 24px;
+            pointer-events: none;
+            animation: thumbsUpPop 0.8s ease-out forwards;
+        }
     </style>
 </head>
 <body>
@@ -253,7 +264,7 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div class="input-group">
                     <label>Total Backlog Classes</label>
-                    <input type="number" id="backlog-total" placeholder="e.g. 15" value="15">
+                    <input type="number" id="backlog-total" value="15">
                 </div>
                 <div class="input-group">
                     <label>Duration of 1 Class</label>
@@ -272,25 +283,19 @@
                 </div>
                 <div class="input-group">
                     <label>Max Classes Allowed/Day</label>
-                    <input type="number" id="max-classes" value="4" title="Limits total combined classes per day">
+                    <input type="number" id="max-classes" value="4">
                 </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div class="input-group">
                     <label>Target Deadline (Days)</label>
-                    <input type="number" id="days-total" placeholder="e.g. 30" value="20">
+                    <input type="number" id="days-total" value="20">
                 </div>
                 <div class="input-group">
                     <label>Dedicated Off-Day</label>
                     <select id="off-day">
                         <option value="Sunday">Sunday</option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                        <option value="Saturday">Saturday</option>
                         <option value="None">None</option>
                     </select>
                 </div>
@@ -300,15 +305,32 @@
         <button onclick="initiateComeback()">Cook My Plan</button>
     </div>
 
+    <div id="live-alert-panel">
+        <div class="alert-header" id="alert-text">Plan Alert: You have remaining classes left over.</div>
+        <div class="alert-actions">
+            <button class="mini-btn btn-extend" onclick="resolveOptionA()">Do Them After Plan Ends</button>
+            <button class="mini-btn btn-recook" onclick="resolveOptionB()">Re-Cook Remaining Days</button>
+        </div>
+    </div>
+
     <div id="plan-container"></div>
 
     <script>
+        let globalMasterPlan = [];
+        let totalBacklogsLeftUnfinished = 0;
+
         function initiateComeback() {
-            // Trigger Visual Impact Flash Effect
             document.body.classList.remove('flash');
             void document.body.offsetWidth; 
             document.body.classList.add('flash');
 
+            document.getElementById('live-alert-panel').style.display = 'none';
+            totalBacklogsLeftUnfinished = 0;
+
+            buildScheduleEngine();
+        }
+
+        function buildScheduleEngine() {
             const container = document.getElementById('plan-container');
             container.innerHTML = ''; 
 
@@ -319,64 +341,50 @@
             let maxDailyClasses = parseInt(document.getElementById('max-classes').value);
             let chosenOffDay = document.getElementById('off-day').value;
 
-            if (!backlogs || !targetDays || backlogs <= 0 || targetDays <= 0) {
-                alert("Please enter valid parameters to map your custom schedule.");
-                return;
-            }
-
-            // Smooth scroll anchor
-            setTimeout(() => {
-                window.scrollBy({ top: 380, behavior: 'smooth' });
-            }, 100);
-
             let currentDate = new Date();
             let dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             
-            let plan = [];
+            globalMasterPlan = [];
             let currentDayCount = 0;
 
-            // Continues mapping until backlogs hit 0, tracking if it exceeds the target deadline
             while (backlogs > 0) {
                 let currentDayIndex = currentDate.getDay();
                 let todayName = dayNames[currentDayIndex];
                 let isOffDay = (todayName === chosenOffDay);
                 
                 let regularToday = isOffDay ? 0 : baseRegular;
-                let backlogsToday = 0;
-
-                // Safety space calculation based on your Max Classes Allowed cap
                 let availableSlots = Math.max(0, maxDailyClasses - regularToday);
-
-                if (isOffDay) {
-                    // Off days focus cleanly on killing backlogs safely
-                    backlogsToday = Math.min(availableSlots, Math.min(3, backlogs)); 
-                } else {
-                    // Regular days balance current work vs backlog budget
-                    backlogsToday = Math.min(availableSlots, Math.min(2, backlogs));
-                }
+                let backlogsToday = isOffDay ? Math.min(availableSlots, Math.min(3, backlogs)) : Math.min(availableSlots, Math.min(2, backlogs));
 
                 backlogs -= backlogsToday;
                 currentDayCount++;
 
-                plan.push({
+                globalMasterPlan.push({
                     dayNum: currentDayCount,
                     day: todayName,
                     date: currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                     reg: regularToday,
                     back: backlogsToday,
-                    isOffDay: isOffDay
+                    isOffDay: isOffDay,
+                    status: 'pending' // pending, checked, crossed
                 });
 
                 currentDate.setDate(currentDate.getDate() + 1);
-
-                // Prevent infinite loop crash safety margin
-                if(currentDayCount > 365) break;
+                if(currentDayCount > 100) break; 
             }
 
-            // Render beautiful checklist cards with staggered delay
-            plan.forEach((item, index) => {
+            renderInterfaceCards();
+        }
+
+        function renderInterfaceCards() {
+            const container = document.getElementById('plan-container');
+            container.innerHTML = '';
+
+            let duration = parseFloat(document.getElementById('class-duration').value);
+
+            globalMasterPlan.forEach((item, index) => {
                 let card = document.createElement('div');
-                card.className = `day-card ${item.isOffDay ? 'off-day' : ''}`;
+                card.className = `day-card ${item.isOffDay ? 'off-day' : ''} ${item.status === 'checked' ? 'status-checked' : ''} ${item.status === 'crossed' ? 'status-crossed' : ''}`;
                 card.id = `day-card-${item.dayNum}`;
 
                 let totalHours = item.back * duration;
@@ -385,10 +393,10 @@
 
                 card.innerHTML = `
                     <div class="card-left">
-                        <label class="checkbox-wrapper">
-                            <input type="checkbox" onchange="toggleDayCompletion(${item.dayNum})">
-                            <span class="checkmark"></span>
-                        </label>
+                        <div class="action-buttons">
+                            <button class="status-btn btn-check" onclick="markChecked(${item.dayNum})">✓</button>
+                            <button class="status-btn btn-cross" onclick="markCrossed(${item.dayNum})">✕</button>
+                        </div>
                         <div class="day-info">
                             <span class="day-name">Day ${item.dayNum}: ${item.day}</span>
                             <span class="date-text">${item.date}</span>
@@ -401,26 +409,95 @@
                 `;
 
                 container.appendChild(card);
-
-                setTimeout(() => {
-                    card.classList.add('show');
-                }, index * 60); 
+                card.classList.add('show');
             });
 
-            // Alerts you gently if your maximum capacity requires pushing your initial deadline out
-            if (currentDayCount > targetDays) {
-                setTimeout(() => {
-                    alert(`Timeline Update: Due to your daily class cap, your plan requires ${currentDayCount} days instead of ${targetDays} to safely cook all backlogs.`);
-                }, plan.length * 60 + 400);
+            evaluateAlertState();
+        }
+
+        function markChecked(dayNum) {
+            let targetItem = globalMasterPlan.find(p => p.dayNum === dayNum);
+            if(targetItem.status === 'checked') return;
+            
+            targetItem.status = 'checked';
+            
+            // Pop floating UI thumbs-up effect
+            let card = document.getElementById(`day-card-${dayNum}`);
+            let emoji = document.createElement('div');
+            emoji.className = 'floating-emoji';
+            emoji.innerText = '👍';
+            card.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 800);
+
+            renderInterfaceCards();
+        }
+
+        function markCrossed(dayNum) {
+            let targetItem = globalMasterPlan.find(p => p.dayNum === dayNum);
+            if(targetItem.status === 'crossed') return;
+
+            targetItem.status = 'crossed';
+            renderInterfaceCards();
+        }
+
+        function evaluateAlertState() {
+            let missedClasses = 0;
+            globalMasterPlan.forEach(item => {
+                if(item.status === 'crossed') {
+                    missedClasses += item.back;
+                }
+            });
+
+            totalBacklogsLeftUnfinished = missedClasses;
+            let alertBox = document.getElementById('live-alert-panel');
+            
+            if(missedClasses > 0) {
+                document.getElementById('alert-text').innerText = `⚠️ Schedule Alert: You have missed targets. After Day ${globalMasterPlan.length}, you will have ${missedClasses} backlogs remaining left over.`;
+                alertBox.style.display = 'flex';
+            } else {
+                alertBox.style.display = 'none';
             }
         }
 
-        // Live card visual toggle
-        function toggleDayCompletion(dayId) {
-            const card = document.getElementById(`day-card-${dayId}`);
-            if (card) {
-                card.classList.toggle('completed');
+        // Option A: Append left over classes to the back end of the plan
+        function resolveOptionA() {
+            if(totalBacklogsLeftUnfinished <= 0) return;
+            
+            let currentTotalBacklogs = parseInt(document.getElementById('backlog-total').value);
+            document.getElementById('backlog-total').value = currentTotalBacklogs + totalBacklogsLeftUnfinished;
+            
+            // Clean out current crossed items to reset counters
+            globalMasterPlan.forEach(p => { if(p.status === 'crossed') p.status = 'checked'; });
+            
+            buildScheduleEngine();
+            alert("Success: Missed classes appended to the end of your tracking calendar timeline!");
+        }
+
+        // Option B: Re-cook remaining workflow capacity parameters dynamically
+        function resolveOptionB() {
+            if(totalBacklogsLeftUnfinished <= 0) return;
+
+            let remainingDaysToDistribute = globalMasterPlan.filter(p => p.status === 'pending').length;
+            
+            if(remainingDaysToDistribute <= 1) {
+                alert("Not enough future operational days left to distribute balance. Appending tracking out to backend instead.");
+                resolveOptionA();
+                return;
             }
+
+            // Distribute items onto upcoming items directly
+            globalMasterPlan.forEach(p => {
+                if(p.status === 'pending' && totalBacklogsLeftUnfinished > 0) {
+                    p.back += 1;
+                    totalBacklogsLeftUnfinished--;
+                }
+                if(p.status === 'crossed') {
+                    p.status = 'checked'; // Clear crossed state flags
+                }
+            });
+
+            renderInterfaceCards();
+            alert("Plan Re-Cooked: Leftover classes balanced safely into upcoming remaining active days!");
         }
     </script>
 </body>
