@@ -28,11 +28,10 @@
         }
 
         @keyframes impactFlash {
-            0% { background-color: #3b0764; } /* Deep purple flash */
+            0% { background-color: #3b0764; }
             100% { background-color: #09090b; }
         }
 
-        /* The "Bangle" (Badge) */
         .bangle {
             margin-top: 50px;
             padding: 6px 16px;
@@ -43,7 +42,7 @@
             font-weight: 500;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: #a855f7; /* Aesthetic purple */
+            color: #a855f7;
             box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
         }
 
@@ -52,11 +51,35 @@
             font-weight: 800;
             font-size: 36px;
             margin-top: 15px;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
             letter-spacing: -1px;
         }
 
-        /* Clean Glass Container */
+        .quote-box {
+            text-align: center;
+            max-width: 500px;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .quote-text {
+            font-size: 15px;
+            color: #a1a1aa;
+            line-height: 1.6;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .quote-author {
+            display: block;
+            font-size: 12px;
+            color: #a855f7;
+            font-weight: 600;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         .container {
             background: rgba(24, 24, 27, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -67,7 +90,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        /* Inputs */
         .input-grid {
             display: flex;
             flex-direction: column;
@@ -96,12 +118,6 @@
             font-family: inherit;
             font-size: 15px;
             outline: none;
-            transition: all 0.2s ease;
-        }
-
-        input:focus, select:focus {
-            border-color: #a855f7;
-            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
         }
 
         button {
@@ -122,7 +138,7 @@
             background: #e4e4e7;
         }
 
-        /* JOURNEY PROGRESS VISUAL (The Race to Success) */
+        /* JOURNEY PROGRESS VISUAL */
         #journey-visual-container {
             width: 90%;
             max-width: 600px;
@@ -131,7 +147,7 @@
             background: rgba(24, 24, 27, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            display: none; /* Initially hidden */
+            display: none;
             flex-direction: column;
             align-items: center;
         }
@@ -147,24 +163,23 @@
             margin-bottom: 10px;
         }
 
-        /* The Stick Person/Runner Icon */
+        /* Flipped Runner to face forward */
         .runner-icon {
             position: absolute;
-            left: 0%; /* Dynamic */
-            top: -30px; /* Positions above track */
+            left: 0%;
+            top: -30px;
             width: 32px;
             height: 32px;
             background-color: transparent;
-            color: #a855f7; /* Aesthetic purple */
+            color: #a855f7;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            transform: translateX(-50%); /* Centers character */
-            transition: left 0.6s cubic-bezier(0.33, 1, 0.68, 1); /* Smooth movement */
+            transform: translateX(-50%) scaleX(-1); /* Flips icon to face right */
+            transition: left 0.6s cubic-bezier(0.33, 1, 0.68, 1);
         }
 
-        /* Success/End-Line Icon */
         .success-icon {
             position: absolute;
             right: -10px;
@@ -173,139 +188,181 @@
             font-size: 20px;
         }
 
-        /* Status text below track */
         .progress-status {
             font-size: 14px;
             color: #a1a1aa;
             font-weight: 500;
         }
 
-        /* Output Plan */
+        #live-alert-panel {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 30px;
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(24, 24, 27, 0.8) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .alert-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fca5a5;
+        }
+
+        .alert-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .mini-btn {
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-extend { background: #a855f7; color: white; }
+        .btn-recook { background: #27272a; color: #fafafa; border: 1px solid rgba(255,255,255,0.1); }
+
         #plan-container {
             width: 90%;
             max-width: 600px;
             margin-top: 20px;
-            margin-bottom: 80px;
+            margin-bottom: 40px;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
         .day-card {
-            position: relative; /* For the 'tick' fade */
+            position: relative;
             background: rgba(24, 24, 27, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             padding: 20px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             opacity: 0;
-            transform: translateY(20px) scale(0.98);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
         }
 
-        /* Completed State */
-        .day-card.completed {
-            background-color: rgba(168, 85, 247, 0.03); /* Faint aesthetic purple glow */
-            border-color: rgba(168, 85, 247, 0.15);
-            opacity: 0.6; /* Slight dim */
+        .card-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
 
-        .day-card.completed .backlog-text,
-        .day-card.completed .day-name {
-            text-decoration: line-through;
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .status-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #18181b;
             color: #a1a1aa;
-        }
-
-        /* Aesthetic Checkbox */
-        .checkbox-container {
-            margin-right: 20px;
-            position: relative;
-            width: 20px;
-            height: 20px;
-        }
-
-        .checkbox-container input {
-            position: absolute;
-            opacity: 0;
+            font-size: 14px;
             cursor: pointer;
-            height: 0;
-            width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
         }
 
-        .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 20px;
-            width: 20px;
-            background-color: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 6px;
-            transition: all 0.2s;
+        .btn-check:hover, .day-card.status-checked .btn-check {
+            background: #22c55e;
+            color: white;
+            border-color: #22c55e;
         }
 
-        .checkbox-container:hover input ~ .checkmark {
-            border-color: #a855f7;
+        .btn-cross:hover, .day-card.status-crossed .btn-cross {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
         }
 
-        .checkbox-container input:checked ~ .checkmark {
-            background-color: #a855f7;
-            border-color: #a855f7;
+        .day-card.status-checked {
+            opacity: 0.5;
+            background: rgba(34, 197, 94, 0.03);
         }
+        .day-card.status-checked .backlog-text { text-decoration: line-through; color: #71717a; }
 
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-            left: 7px;
-            top: 3px;
-            width: 4px;
-            height: 9px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
+        .day-card.status-crossed {
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.03);
         }
+        .day-card.status-crossed .backlog-text { color: #f87171; font-style: italic; }
 
-        .checkbox-container input:checked ~ .checkmark:after {
-            display: block;
-        }
+        .day-card.off-day { border-left: 4px solid #a855f7; }
 
-        /* Off-Day Styling */
-        .day-card.off-day {
-            border-left: 4px solid #a855f7;
-            background: linear-gradient(90deg, rgba(168, 85, 247, 0.05) 0%, rgba(24, 24, 27, 0.8) 100%);
-        }
-        
-        .day-card.off-day .backlog-text {
-            color: #d8b4fe;
-        }
-
-        .day-info { display: flex; flex-direction: column; gap: 6px; flex-grow: 1; }
-        .day-name { font-size: 16px; font-weight: 700; color: #fafafa; transition: color 0.3s; }
+        .day-info { display: flex; flex-direction: column; gap: 4px; }
+        .day-name { font-size: 16px; font-weight: 700; }
         .date-text { font-size: 13px; color: #71717a; }
         
-        .workload-info { text-align: right; display: flex; flex-direction: column; gap: 6px; }
-        .backlog-text { font-size: 15px; color: #fafafa; font-weight: 700; transition: color 0.3s; }
+        .workload-info { text-align: right; display: flex; flex-direction: column; gap: 4px; }
+        .backlog-text { font-size: 15px; font-weight: 700; }
         .regular-text { font-size: 13px; color: #71717a; }
 
-        .show { opacity: 1; transform: translateY(0) scale(1); }
+        .show { opacity: 1; transform: translateY(0); }
 
+        @keyframes thumbsUpPop {
+            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-60px) scale(1.2) rotate(-15deg); opacity: 0; }
+        }
+
+        .floating-emoji {
+            position: absolute;
+            left: 30px;
+            font-size: 24px;
+            pointer-events: none;
+            animation: thumbsUpPop 0.8s ease-out forwards;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #52525b;
+            letter-spacing: 0.3px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        footer span {
+            color: #a855f7;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
 
     <div class="bangle">🔥 Mission Comeback</div>
     <h1>Backlog Killer Plan</h1>
+    
+    <div class="quote-box">
+        <span class="quote-text" id="motivation-quote">"Loading your daily focus code..."</span>
+        <span class="quote-author" id="motivation-author"></span>
+    </div>
 
     <div class="container">
         <div class="input-grid">
-            <div class="input-group">
-                <label>Total Backlog Classes to Cook</label>
-                <input type="number" id="backlog-total" placeholder="e.g. 15">
-            </div>
-            
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="input-group">
+                    <label>Total Backlog Classes</label>
+                    <input type="number" id="backlog-total" value="15">
+                </div>
                 <div class="input-group">
                     <label>Duration of 1 Class</label>
                     <select id="class-duration">
@@ -314,27 +371,28 @@
                         <option value="2" selected>2 Hours</option>
                     </select>
                 </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div class="input-group">
-                    <label>Deadline (Days)</label>
-                    <input type="number" id="days-total" placeholder="e.g. 30">
+                    <label>Regular Classes (Daily)</label>
+                    <input type="number" id="regular-classes" value="3">
+                </div>
+                <div class="input-group">
+                    <label>Max Classes Allowed/Day</label>
+                    <input type="number" id="max-classes" value="4">
                 </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div class="input-group">
-                    <label>Regular Classes (JEE/NEET)</label>
-                    <input type="number" id="regular-classes" value="3">
+                    <label>Target Deadline (Days)</label>
+                    <input type="number" id="days-total" value="20">
                 </div>
                 <div class="input-group">
                     <label>Dedicated Off-Day</label>
                     <select id="off-day">
                         <option value="Sunday">Sunday</option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                        <option value="Saturday">Saturday</option>
                         <option value="None">None</option>
                     </select>
                 </div>
@@ -353,167 +411,272 @@
         <div class="progress-status" id="journey-status">0 / 0 Backlogs Killed</div>
     </div>
 
+    <div id="live-alert-panel">
+        <div class="alert-header" id="alert-text">Plan Alert: You have remaining classes left over.</div>
+        <div class="alert-actions">
+            <button class="mini-btn btn-extend" onclick="resolveOptionA()">Do Them After Plan Ends</button>
+            <button class="mini-btn btn-recook" onclick="resolveOptionB()">Re-Cook Remaining Days</button>
+        </div>
+    </div>
+
     <div id="plan-container"></div>
 
+    <footer>
+        Made by a student, <span>Chaitanya Sharma</span>, to help students in their journey to success.
+    </footer>
+
     <script>
-        // Global variables to track progress state
+        const quotesRepository = [
+            { text: "If you quit now, you will end up right back where you first started wishing you were here.", author: "Anonymous" },
+            { text: "The backlog looks massive only until you decide to take the first step and destroy day one.", author: "Discipline Code" },
+            { text: "Do not wait for motivation. True execution is doing the work precisely when you do not feel like it.", author: "Focus Hub" },
+            { text: "You don't need a fresh path to restart. You just need a definitive decision to finish your day strong.", author: "Mindset" },
+            { text: "Great comebacks do not require miracles. They simply demand raw, uncompromised daily consistency.", author: "Execution Core" },
+            { text: "Your future profile is constructed directly by the choices you commit to right this very second.", author: "Growth Path" },
+            { text: "Suffer the temporary weight of discipline today, or carry the endless weight of regret tomorrow.", author: "Legacy" },
+            { text: "The absolute best way to accurately predict your destiny is to proactively create it step by step.", author: "Vision" },
+            { text: "Focus is the profound ability to say a strict no to all secondary choices vying for your attention.", author: "Deep Work" },
+            { text: "Small, daily execution benchmarks compound over time into massive, unbelievable transformations.", author: "Atomic Flow" },
+            { text: "Your potential expands dynamically the exact moment you choose to stop negotiating with your comfort zone.", author: "Peak Performance" },
+            { text: "Do not look at the entire peak. Just focus entirely on making your current step perfect.", author: "Climb Mechanics" },
+            { text: "The secret to getting ahead is simply choosing to finally start moving forward.", author: "Progress System" },
+            { text: "Energy flows precisely where your dedicated focus and immediate attention goes.", author: "Mind Architecture" },
+            { text: "Consistency is what transforms a casual goal into an absolute, undeniable reality.", author: "Daily Grind" },
+            { text: "You are entirely one single decision away from experiencing a completely different trajectory.", author: "Pivot State" },
+            { text: "Do not fear slow progress. Fear standing completely still while time continues to move.", author: "Velocity Core" },
+            { text: "The work you do in the complete dark is what eventually brings you into the light.", author: "Silent Grind" },
+            { text: "Stop wishing it were easier. Start focusing your energy on becoming better prepared.", author: "Mind Armor" },
+            { text: "He who has a clear, unyielding purpose can easily survive almost any daily obstacle.", author: "Drive Mechanics" },
+            { text: "Amateurs wait for ideal conditions. True professionals simply get up and execute regardless.", author: "Mastery Flow" },
+            { text: "Action kills all anxiety. Execution systematically eliminates every single doubt.", author: "Clarity Engine" },
+            { text: "You cannot change your past progress, but you completely own your next performance.", author: "Reset Code" },
+            { text: "The pain of studying is completely temporary. The ultimate pride of succeeding lasts forever.", author: "Victory Engine" },
+            { text: "Be proud of how far you have come, and stay completely focused on where you are heading.", author: "Horizon Line" }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const randomIndex = Math.floor(Math.random() * quotesRepository.length);
+            const selectedQuote = quotesRepository[randomIndex];
+            document.getElementById('motivation-quote').innerText = `"${selectedQuote.text}"`;
+            document.getElementById('motivation-author').innerText = `— ${selectedQuote.author}`;
+        });
+
+        let globalMasterPlan = [];
         let totalBacklogsToKill = 0;
         let killedBacklogs = 0;
-        let planMasterList = [];
+        let totalBacklogsLeftUnfinished = 0;
 
         function initiateComeback() {
-            // Trigger Flash Effect
             document.body.classList.remove('flash');
-            void document.body.offsetWidth; // Trigger reflow to restart animation
+            void document.body.offsetWidth; 
             document.body.classList.add('flash');
 
+            document.getElementById('live-alert-panel').style.display = 'none';
+            totalBacklogsLeftUnfinished = 0;
+            killedBacklogs = 0;
+
+            buildScheduleEngine();
+        }
+
+        function buildScheduleEngine() {
             const container = document.getElementById('plan-container');
             container.innerHTML = ''; 
 
-            let backlogsInput = parseInt(document.getElementById('backlog-total').value);
+            let backlogs = parseInt(document.getElementById('backlog-total').value);
             let duration = parseFloat(document.getElementById('class-duration').value);
-            let days = parseInt(document.getElementById('days-total').value);
+            let targetDays = parseInt(document.getElementById('days-total').value);
             let baseRegular = parseInt(document.getElementById('regular-classes').value);
+            let maxDailyClasses = parseInt(document.getElementById('max-classes').value);
             let chosenOffDay = document.getElementById('off-day').value;
 
-            if (!backlogsInput || !days || backlogsInput <= 0 || days <= 0) {
-                alert("Please enter valid numbers to cook your plan.");
-                return;
-            }
-
-            // Scroll down smoothly
-            setTimeout(() => {
-                window.scrollBy({ top: 400, behavior: 'smooth' });
-            }, 100);
-
-            // Set up Journey Tracking data
-            totalBacklogsToKill = backlogsInput;
-            killedBacklogs = 0;
-            planMasterList = [];
-            
-            updateJourneyVisuals(); // Set initial 0 state
-            document.getElementById('journey-visual-container').style.display = 'flex'; // Show visual
+            totalBacklogsToKill = backlogs;
+            updateJourneyVisuals();
+            document.getElementById('journey-visual-container').style.display = 'flex';
 
             let currentDate = new Date();
             let dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            let tempBacklogs = backlogsInput;
+            
+            globalMasterPlan = [];
+            let currentDayCount = 0;
 
-            // Compute the plan list
-            for (let i = 0; i < days; i++) {
-                if (tempBacklogs <= 0) break; 
-
+            while (backlogs > 0) {
                 let currentDayIndex = currentDate.getDay();
                 let todayName = dayNames[currentDayIndex];
                 let isOffDay = (todayName === chosenOffDay);
                 
-                let backlogsToday = 0;
+                let regularToday = isOffDay ? 0 : baseRegular;
+                let availableSlots = Math.max(0, maxDailyClasses - regularToday);
+                let backlogsToday = isOffDay ? Math.min(availableSlots, Math.min(3, backlogs)) : Math.min(availableSlots, Math.min(2, backlogs));
 
-                // Smart Scheduling Logic
-                if (isOffDay) {
-                    backlogsToday = Math.min(tempBacklogs, 3); // Up to 3 on off days
-                } else {
-                    backlogsToday = Math.min(tempBacklogs, 1); // 1 on regular days
-                }
+                backlogs -= backlogsToday;
+                currentDayCount++;
 
-                tempBacklogs -= backlogsToday;
-
-                planMasterList.push({
-                    dayNum: i + 1,
-                    dayName: todayName,
+                globalMasterPlan.push({
+                    dayNum: currentDayCount,
+                    day: todayName,
                     date: currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                    reg: regularToday,
+                    back: backlogsToday,
                     isOffDay: isOffDay,
-                    backlogsCount: backlogsToday,
-                    completed: false
+                    status: 'pending'
                 });
 
                 currentDate.setDate(currentDate.getDate() + 1);
+                if(currentDayCount > 100) break; 
             }
 
-            // Render UI with staggered animation
-            renderPlanUI();
+            renderInterfaceCards();
         }
 
-        function renderPlanUI() {
+        function renderInterfaceCards() {
             const container = document.getElementById('plan-container');
             container.innerHTML = '';
-            const duration = parseFloat(document.getElementById('class-duration').value);
 
-            planMasterList.forEach((item, index) => {
+            let duration = parseFloat(document.getElementById('class-duration').value);
+
+            globalMasterPlan.forEach((item, index) => {
                 let card = document.createElement('div');
-                card.className = `day-card ${item.isOffDay ? 'off-day' : ''} ${item.completed ? 'completed' : ''}`;
+                card.className = `day-card ${item.isOffDay ? 'off-day' : ''} ${item.status === 'checked' ? 'status-checked' : ''} ${item.status === 'crossed' ? 'status-crossed' : ''}`;
                 card.id = `day-card-${item.dayNum}`;
 
-                let backlogString = item.backlogsCount === 0 ? "Rest / Revise" : `+${item.backlogsCount} Backlogs (${item.backlogsCount * duration} hrs)`;
+                let totalHours = item.back * duration;
+                let backlogString = item.back === 0 ? "Rest / Revise" : `+${item.back} Backlogs (${totalHours} hrs)`;
+                let regularString = item.reg === 0 ? "No Regular Classes" : `${item.reg} Reg. Classes`;
 
                 card.innerHTML = `
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="check-${item.dayNum}" ${item.completed ? 'checked' : ''} onchange="toggleDayCompletion(${item.dayNum})">
-                        <span class="checkmark"></span>
-                    </label>
-                    <div class="day-info">
-                        <span class="day-name">Day ${item.dayNum}: ${item.dayName}</span>
-                        <span class="date-text">${item.date}</span>
+                    <div class="card-left">
+                        <div class="action-buttons">
+                            <button class="status-btn btn-check" onclick="markChecked(${item.dayNum})">✓</button>
+                            <button class="status-btn btn-cross" onclick="markCrossed(${item.dayNum})">✕</button>
+                        </div>
+                        <div class="day-info">
+                            <span class="day-name">Day ${item.dayNum}: ${item.day}</span>
+                            <span class="date-text">${item.date}</span>
+                        </div>
                     </div>
                     <div class="workload-info">
                         <span class="backlog-text">${backlogString}</span>
+                        <span class="regular-text">${regularString}</span>
                     </div>
                 `;
 
                 container.appendChild(card);
-
-                setTimeout(() => {
-                    card.classList.add('show');
-                }, index * 80); 
+                card.classList.add('show');
             });
-        }
 
-        // Handles the clicking of the checkbox
-        function toggleDayCompletion(dayNum) {
-            // Find the day item in our master list
-            let dayItem = planMasterList.find(item => item.dayNum === dayNum);
-            if(!dayItem) return;
-
-            // Update the data state
-            dayItem.completed = !dayItem.completed;
-
-            // Visual update for the card itself
-            const card = document.getElementById(`day-card-${dayNum}`);
-            if(dayItem.completed) {
-                card.classList.add('completed');
-                killedBacklogs += dayItem.backlogsCount;
-            } else {
-                card.classList.remove('completed');
-                killedBacklogs -= dayItem.backlogsCount;
-            }
-
+            evaluateAlertState();
             updateJourneyVisuals();
         }
 
-        // Re-calculates and moves the Runner icon
+        function markChecked(dayNum) {
+            let targetItem = globalMasterPlan.find(p => p.dayNum === dayNum);
+            if(targetItem.status === 'checked') return;
+            
+            if(targetItem.status === 'crossed') {
+                // If moving from crossed to checked, don't double count
+            }
+            
+            targetItem.status = 'checked';
+            
+            let card = document.getElementById(`day-card-${dayNum}`);
+            let emoji = document.createElement('div');
+            emoji.className = 'floating-emoji';
+            emoji.innerText = '👍';
+            card.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 800);
+
+            recalculateKilledCount();
+            renderInterfaceCards();
+        }
+
+        function markCrossed(dayNum) {
+            let targetItem = globalMasterPlan.find(p => p.dayNum === dayNum);
+            if(targetItem.status === 'crossed') return;
+
+            targetItem.status = 'crossed';
+            recalculateKilledCount();
+            renderInterfaceCards();
+        }
+
+        function recalculateKilledCount() {
+            let count = 0;
+            globalMasterPlan.forEach(item => {
+                if(item.status === 'checked') {
+                    count += item.back;
+                }
+            });
+            killedBacklogs = count;
+        }
+
         function updateJourneyVisuals() {
-            // Percent Calculation
             let rawPercentage = (killedBacklogs / totalBacklogsToKill) * 100;
-            // Prevent division by zero and round clean
             let percentage = totalBacklogsToKill > 0 ? Math.min(100, Math.round(rawPercentage)) : 0;
 
-            // Move the Runner icon (left CSS property)
             document.getElementById('runner').style.left = `${percentage}%`;
             
-            // Update Text Displays
             document.getElementById('journey-title').innerText = `RACE TO SUCCESS (${percentage}%)`;
             document.getElementById('journey-status').innerText = `${killedBacklogs} / ${totalBacklogsToKill} Backlogs Killed`;
 
-            // Smart status comments
             if(percentage === 100) {
                 document.getElementById('journey-title').innerText = "MISSION ACCOMPLISHED (100%)";
-                document.getElementById('journey-title').style.color = "#22c55e"; // Green finish
-            } else if (percentage >= 75) {
-                document.getElementById('journey-title').style.color = "#a855f7"; // Re-set color back to purple
+                document.getElementById('journey-title').style.color = "#22c55e";
             } else {
-                document.getElementById('journey-title').style.color = "#fafafa"; // Normal white
+                document.getElementById('journey-title').style.color = "#fafafa";
             }
         }
 
+        function evaluateAlertState() {
+            let missedClasses = 0;
+            globalMasterPlan.forEach(item => {
+                if(item.status === 'crossed') {
+                    missedClasses += item.back;
+                }
+            });
+
+            totalBacklogsLeftUnfinished = missedClasses;
+            let alertBox = document.getElementById('live-alert-panel');
+            
+            if(missedClasses > 0) {
+                document.getElementById('alert-text').innerText = `⚠️ Schedule Alert: You have missed targets. After Day ${globalMasterPlan.length}, you will have ${missedClasses} backlogs remaining left over.`;
+                alertBox.style.display = 'flex';
+            } else {
+                alertBox.style.display = 'none';
+            }
+        }
+
+        function resolveOptionA() {
+            if(totalBacklogsLeftUnfinished <= 0) return;
+            
+            let currentTotalBacklogs = parseInt(document.getElementById('backlog-total').value);
+            document.getElementById('backlog-total').value = currentTotalBacklogs + totalBacklogsLeftUnfinished;
+            
+            globalMasterPlan.forEach(p => { if(p.status === 'crossed') p.status = 'checked'; });
+            
+            buildScheduleEngine();
+        }
+
+        function resolveOptionB() {
+            if(totalBacklogsLeftUnfinished <= 0) return;
+
+            let remainingDaysToDistribute = globalMasterPlan.filter(p => p.status === 'pending').length;
+            
+            if(remainingDaysToDistribute <= 1) {
+                resolveOptionA();
+                return;
+            }
+
+            globalMasterPlan.forEach(p => {
+                if(p.status === 'pending' && totalBacklogsLeftUnfinished > 0) {
+                    p.back += 1;
+                    totalBacklogsLeftUnfinished--;
+                }
+                if(p.status === 'crossed') {
+                    p.status = 'checked'; 
+                }
+            });
+
+            renderInterfaceCards();
+        }
     </script>
 </body>
 </html>
