@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -55,7 +55,6 @@
             letter-spacing: -1px;
         }
 
-        /* Aesthetic Dynamic Quote Container */
         .quote-box {
             text-align: center;
             max-width: 500px;
@@ -65,7 +64,7 @@
 
         .quote-text {
             font-size: 15px;
-            color: #a1a1aa; /* Premium muted text */
+            color: #a1a1aa;
             line-height: 1.6;
             font-weight: 400;
             font-style: italic;
@@ -178,7 +177,7 @@
             width: 90%;
             max-width: 600px;
             margin-top: 20px;
-            margin-bottom: 80px;
+            margin-bottom: 40px;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -273,6 +272,23 @@
             pointer-events: none;
             animation: thumbsUpPop 0.8s ease-out forwards;
         }
+
+        /* Your Custom Aesthetic Footer */
+        footer {
+            margin-top: auto;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #52525b; /* Subtly darker gray to sit cleanly at base */
+            letter-spacing: 0.3px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        footer span {
+            color: #a855f7; /* Highlighting your name beautifully */
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -341,8 +357,11 @@
 
     <div id="plan-container"></div>
 
+    <footer>
+        Made by a student, <span>Chaitanya Sharma</span>, to help students in their journey to success.
+    </footer>
+
     <script>
-        // Curated Library of 25 Premium Productivity Quotes
         const quotesRepository = [
             { text: "If you quit now, you will end up right back where you first started wishing you were here.", author: "Anonymous" },
             { text: "The backlog looks massive only until you decide to take the first step and destroy day one.", author: "Discipline Code" },
@@ -371,7 +390,6 @@
             { text: "Be proud of how far you have come, and stay completely focused on where you are heading.", author: "Horizon Line" }
         ];
 
-        // Pick a completely random quote immediately when the web page mounts live
         window.addEventListener('DOMContentLoaded', () => {
             const randomIndex = Math.floor(Math.random() * quotesRepository.length);
             const selectedQuote = quotesRepository[randomIndex];
