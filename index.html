@@ -67,7 +67,7 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        /* Inputs */
+        /* Inputs Grid */
         .input-grid {
             display: flex;
             flex-direction: column;
@@ -122,7 +122,7 @@
             background: #e4e4e7;
         }
 
-        /* Output Plan */
+        /* Output Plan Container */
         #plan-container {
             width: 90%;
             max-width: 600px;
@@ -133,17 +133,92 @@
             gap: 12px;
         }
 
+        /* Dynamic Checklist Card */
         .day-card {
             background: rgba(24, 24, 27, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             padding: 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            gap: 16px;
             opacity: 0;
             transform: translateY(20px) scale(0.98);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Interactive Checklist Layout */
+        .card-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Custom Modern Checkbox styling */
+        .checkbox-wrapper {
+            position: relative;
+            width: 22px;
+            height: 22px;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 22px;
+            width: 22px;
+            background-color: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-wrapper:hover input ~ .checkmark {
+            border-color: #a855f7;
+        }
+
+        .checkbox-wrapper input:checked ~ .checkmark {
+            background-color: #a855f7;
+            border-color: #a855f7;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 7px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-wrapper input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Completed Status Styles */
+        .day-card.completed {
+            background: rgba(24, 24, 27, 0.3);
+            border-color: rgba(255, 255, 255, 0.02);
+            opacity: 0.6;
+        }
+
+        .day-card.completed .day-name, 
+        .day-card.completed .backlog-text {
+            text-decoration: line-through;
+            color: #71717a;
         }
 
         /* Off-Day Styling */
@@ -156,12 +231,12 @@
             color: #d8b4fe;
         }
 
-        .day-info { display: flex; flex-direction: column; gap: 6px; }
-        .day-name { font-size: 16px; font-weight: 700; color: #fafafa; }
+        .day-info { display: flex; flex-direction: column; gap: 4px; }
+        .day-name { font-size: 16px; font-weight: 700; color: #fafafa; transition: all 0.2s; }
         .date-text { font-size: 13px; color: #71717a; }
         
-        .workload-info { text-align: right; display: flex; flex-direction: column; gap: 6px; }
-        .backlog-text { font-size: 15px; color: #fafafa; font-weight: 700; }
+        .workload-info { text-align: right; display: flex; flex-direction: column; gap: 4px; }
+        .backlog-text { font-size: 15px; color: #fafafa; font-weight: 700; transition: all 0.2s; }
         .regular-text { font-size: 13px; color: #71717a; }
 
         .show { opacity: 1; transform: translateY(0) scale(1); }
@@ -175,12 +250,11 @@
 
     <div class="container">
         <div class="input-grid">
-            <div class="input-group">
-                <label>Total Backlog Classes to Cook</label>
-                <input type="number" id="backlog-total" placeholder="e.g. 15">
-            </div>
-            
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="input-group">
+                    <label>Total Backlog Classes</label>
+                    <input type="number" id="backlog-total" placeholder="e.g. 15" value="15">
+                </div>
                 <div class="input-group">
                     <label>Duration of 1 Class</label>
                     <select id="class-duration">
@@ -189,16 +263,23 @@
                         <option value="2" selected>2 Hours</option>
                     </select>
                 </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div class="input-group">
-                    <label>Deadline (Days)</label>
-                    <input type="number" id="days-total" placeholder="e.g. 30">
+                    <label>Regular Classes (Daily)</label>
+                    <input type="number" id="regular-classes" value="3">
+                </div>
+                <div class="input-group">
+                    <label>Max Classes Allowed/Day</label>
+                    <input type="number" id="max-classes" value="4" title="Limits total combined classes per day">
                 </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div class="input-group">
-                    <label>Regular Classes (JEE/NEET)</label>
-                    <input type="number" id="regular-classes" value="3">
+                    <label>Target Deadline (Days)</label>
+                    <input type="number" id="days-total" placeholder="e.g. 30" value="20">
                 </div>
                 <div class="input-group">
                     <label>Dedicated Off-Day</label>
@@ -223,9 +304,9 @@
 
     <script>
         function initiateComeback() {
-            // Trigger Flash Effect
+            // Trigger Visual Impact Flash Effect
             document.body.classList.remove('flash');
-            void document.body.offsetWidth; // Trigger reflow to restart animation
+            void document.body.offsetWidth; 
             document.body.classList.add('flash');
 
             const container = document.getElementById('plan-container');
@@ -233,51 +314,52 @@
 
             let backlogs = parseInt(document.getElementById('backlog-total').value);
             let duration = parseFloat(document.getElementById('class-duration').value);
-            let days = parseInt(document.getElementById('days-total').value);
+            let targetDays = parseInt(document.getElementById('days-total').value);
             let baseRegular = parseInt(document.getElementById('regular-classes').value);
+            let maxDailyClasses = parseInt(document.getElementById('max-classes').value);
             let chosenOffDay = document.getElementById('off-day').value;
 
-            if (!backlogs || !days || backlogs <= 0 || days <= 0) {
-                alert("Please enter valid numbers to cook your plan.");
+            if (!backlogs || !targetDays || backlogs <= 0 || targetDays <= 0) {
+                alert("Please enter valid parameters to map your custom schedule.");
                 return;
             }
 
-            // Scroll down smoothly
+            // Smooth scroll anchor
             setTimeout(() => {
-                window.scrollBy({ top: 400, behavior: 'smooth' });
+                window.scrollBy({ top: 380, behavior: 'smooth' });
             }, 100);
 
             let currentDate = new Date();
             let dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             
             let plan = [];
-            
-            for (let i = 0; i < days; i++) {
-                if (backlogs <= 0) break; 
+            let currentDayCount = 0;
 
+            // Continues mapping until backlogs hit 0, tracking if it exceeds the target deadline
+            while (backlogs > 0) {
                 let currentDayIndex = currentDate.getDay();
-                let currentMonth = currentDate.getMonth(); 
-                
                 let todayName = dayNames[currentDayIndex];
                 let isOffDay = (todayName === chosenOffDay);
-                let isAfterJune = (currentMonth > 5); 
                 
-                let regularToday = 0;
+                let regularToday = isOffDay ? 0 : baseRegular;
                 let backlogsToday = 0;
 
-                // Smart Scheduling Logic
+                // Safety space calculation based on your Max Classes Allowed cap
+                let availableSlots = Math.max(0, maxDailyClasses - regularToday);
+
                 if (isOffDay) {
-                    regularToday = 0;
-                    backlogsToday = Math.min(3, backlogs); 
+                    // Off days focus cleanly on killing backlogs safely
+                    backlogsToday = Math.min(availableSlots, Math.min(3, backlogs)); 
                 } else {
-                    regularToday = isAfterJune ? Math.max(0, baseRegular - 1) : baseRegular;
-                    let maxBacklogs = (regularToday <= 2) ? 2 : 1; 
-                    backlogsToday = Math.min(maxBacklogs, backlogs);
+                    // Regular days balance current work vs backlog budget
+                    backlogsToday = Math.min(availableSlots, Math.min(2, backlogs));
                 }
 
                 backlogs -= backlogsToday;
+                currentDayCount++;
 
                 plan.push({
+                    dayNum: currentDayCount,
                     day: todayName,
                     date: currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                     reg: regularToday,
@@ -286,21 +368,31 @@
                 });
 
                 currentDate.setDate(currentDate.getDate() + 1);
+
+                // Prevent infinite loop crash safety margin
+                if(currentDayCount > 365) break;
             }
 
-            // Render UI with staggered pop-in animation
+            // Render beautiful checklist cards with staggered delay
             plan.forEach((item, index) => {
                 let card = document.createElement('div');
                 card.className = `day-card ${item.isOffDay ? 'off-day' : ''}`;
+                card.id = `day-card-${item.dayNum}`;
 
                 let totalHours = item.back * duration;
                 let backlogString = item.back === 0 ? "Rest / Revise" : `+${item.back} Backlogs (${totalHours} hrs)`;
                 let regularString = item.reg === 0 ? "No Regular Classes" : `${item.reg} Reg. Classes`;
 
                 card.innerHTML = `
-                    <div class="day-info">
-                        <span class="day-name">Day ${index + 1}: ${item.day}</span>
-                        <span class="date-text">${item.date}</span>
+                    <div class="card-left">
+                        <label class="checkbox-wrapper">
+                            <input type="checkbox" onchange="toggleDayCompletion(${item.dayNum})">
+                            <span class="checkmark"></span>
+                        </label>
+                        <div class="day-info">
+                            <span class="day-name">Day ${item.dayNum}: ${item.day}</span>
+                            <span class="date-text">${item.date}</span>
+                        </div>
                     </div>
                     <div class="workload-info">
                         <span class="backlog-text">${backlogString}</span>
@@ -312,8 +404,23 @@
 
                 setTimeout(() => {
                     card.classList.add('show');
-                }, index * 80); 
+                }, index * 60); 
             });
+
+            // Alerts you gently if your maximum capacity requires pushing your initial deadline out
+            if (currentDayCount > targetDays) {
+                setTimeout(() => {
+                    alert(`Timeline Update: Due to your daily class cap, your plan requires ${currentDayCount} days instead of ${targetDays} to safely cook all backlogs.`);
+                }, plan.length * 60 + 400);
+            }
+        }
+
+        // Live card visual toggle
+        function toggleDayCompletion(dayId) {
+            const card = document.getElementById(`day-card-${dayId}`);
+            if (card) {
+                card.classList.toggle('completed');
+            }
         }
     </script>
 </body>
