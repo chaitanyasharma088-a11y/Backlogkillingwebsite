@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -51,8 +51,34 @@
             font-weight: 800;
             font-size: 36px;
             margin-top: 15px;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
             letter-spacing: -1px;
+        }
+
+        /* Aesthetic Dynamic Quote Container */
+        .quote-box {
+            text-align: center;
+            max-width: 500px;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .quote-text {
+            font-size: 15px;
+            color: #a1a1aa; /* Premium muted text */
+            line-height: 1.6;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .quote-author {
+            display: block;
+            font-size: 12px;
+            color: #a855f7;
+            font-weight: 600;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .container {
@@ -113,7 +139,6 @@
             background: #e4e4e7;
         }
 
-        /* Dynamic Live Status Alert Box */
         #live-alert-panel {
             width: 90%;
             max-width: 600px;
@@ -159,7 +184,6 @@
             gap: 12px;
         }
 
-        /* Interactive Checklist Layout */
         .day-card {
             position: relative;
             background: rgba(24, 24, 27, 0.8);
@@ -180,7 +204,6 @@
             gap: 14px;
         }
 
-        /* Action Status Controls */
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -213,7 +236,6 @@
             border-color: #ef4444;
         }
 
-        /* States Layout */
         .day-card.status-checked {
             opacity: 0.5;
             background: rgba(34, 197, 94, 0.03);
@@ -238,7 +260,6 @@
 
         .show { opacity: 1; transform: translateY(0); }
 
-        /* Floating Pop Up Animation Effect */
         @keyframes thumbsUpPop {
             0% { transform: translateY(0) scale(0.5); opacity: 0; }
             50% { opacity: 1; }
@@ -258,6 +279,11 @@
 
     <div class="bangle">🔥 Mission Comeback</div>
     <h1>Backlog Killer Plan</h1>
+    
+    <div class="quote-box">
+        <span class="quote-text" id="motivation-quote">"Loading your daily focus code..."</span>
+        <span class="quote-author" id="motivation-author"></span>
+    </div>
 
     <div class="container">
         <div class="input-grid">
@@ -316,6 +342,43 @@
     <div id="plan-container"></div>
 
     <script>
+        // Curated Library of 25 Premium Productivity Quotes
+        const quotesRepository = [
+            { text: "If you quit now, you will end up right back where you first started wishing you were here.", author: "Anonymous" },
+            { text: "The backlog looks massive only until you decide to take the first step and destroy day one.", author: "Discipline Code" },
+            { text: "Do not wait for motivation. True execution is doing the work precisely when you do not feel like it.", author: "Focus Hub" },
+            { text: "You don't need a fresh path to restart. You just need a definitive decision to finish your day strong.", author: "Mindset" },
+            { text: "Great comebacks do not require miracles. They simply demand raw, uncompromised daily consistency.", author: "Execution Core" },
+            { text: "Your future profile is constructed directly by the choices you commit to right this very second.", author: "Growth Path" },
+            { text: "Suffer the temporary weight of discipline today, or carry the endless weight of regret tomorrow.", author: "Legacy" },
+            { text: "The absolute best way to accurately predict your destiny is to proactively create it step by step.", author: "Vision" },
+            { text: "Focus is the profound ability to say a strict no to all secondary choices vying for your attention.", author: "Deep Work" },
+            { text: "Small, daily execution benchmarks compound over time into massive, unbelievable transformations.", author: "Atomic Flow" },
+            { text: "Your potential expands dynamically the exact moment you choose to stop negotiating with your comfort zone.", author: "Peak Performance" },
+            { text: "Do not look at the entire peak. Just focus entirely on making your current step perfect.", author: "Climb Mechanics" },
+            { text: "The secret to getting ahead is simply choosing to finally start moving forward.", author: "Progress System" },
+            { text: "Energy flows precisely where your dedicated focus and immediate attention goes.", author: "Mind Architecture" },
+            { text: "Consistency is what transforms a casual goal into an absolute, undeniable reality.", author: "Daily Grind" },
+            { text: "You are entirely one single decision away from experiencing a completely different trajectory.", author: "Pivot State" },
+            { text: "Do not fear slow progress. Fear standing completely still while time continues to move.", author: "Velocity Core" },
+            { text: "The work you do in the complete dark is what eventually brings you into the light.", author: "Silent Grind" },
+            { text: "Stop wishing it were easier. Start focusing your energy on becoming better prepared.", author: "Mind Armor" },
+            { text: "He who has a clear, unyielding purpose can easily survive almost any daily obstacle.", author: "Drive Mechanics" },
+            { text: "Amateurs wait for ideal conditions. True professionals simply get up and execute regardless.", author: "Mastery Flow" },
+            { text: "Action kills all anxiety. Execution systematically eliminates every single doubt.", author: "Clarity Engine" },
+            { text: "You cannot change your past progress, but you completely own your next performance.", author: "Reset Code" },
+            { text: "The pain of studying is completely temporary. The ultimate pride of succeeding lasts forever.", author: "Victory Engine" },
+            { text: "Be proud of how far you have come, and stay completely focused on where you are heading.", author: "Horizon Line" }
+        ];
+
+        // Pick a completely random quote immediately when the web page mounts live
+        window.addEventListener('DOMContentLoaded', () => {
+            const randomIndex = Math.floor(Math.random() * quotesRepository.length);
+            const selectedQuote = quotesRepository[randomIndex];
+            document.getElementById('motivation-quote').innerText = `"${selectedQuote.text}"`;
+            document.getElementById('motivation-author').innerText = `— ${selectedQuote.author}`;
+        });
+
         let globalMasterPlan = [];
         let totalBacklogsLeftUnfinished = 0;
 
@@ -366,7 +429,7 @@
                     reg: regularToday,
                     back: backlogsToday,
                     isOffDay: isOffDay,
-                    status: 'pending' // pending, checked, crossed
+                    status: 'pending'
                 });
 
                 currentDate.setDate(currentDate.getDate() + 1);
@@ -421,7 +484,6 @@
             
             targetItem.status = 'checked';
             
-            // Pop floating UI thumbs-up effect
             let card = document.getElementById(`day-card-${dayNum}`);
             let emoji = document.createElement('div');
             emoji.className = 'floating-emoji';
@@ -459,45 +521,38 @@
             }
         }
 
-        // Option A: Append left over classes to the back end of the plan
         function resolveOptionA() {
             if(totalBacklogsLeftUnfinished <= 0) return;
             
             let currentTotalBacklogs = parseInt(document.getElementById('backlog-total').value);
             document.getElementById('backlog-total').value = currentTotalBacklogs + totalBacklogsLeftUnfinished;
             
-            // Clean out current crossed items to reset counters
             globalMasterPlan.forEach(p => { if(p.status === 'crossed') p.status = 'checked'; });
             
             buildScheduleEngine();
-            alert("Success: Missed classes appended to the end of your tracking calendar timeline!");
         }
 
-        // Option B: Re-cook remaining workflow capacity parameters dynamically
         function resolveOptionB() {
             if(totalBacklogsLeftUnfinished <= 0) return;
 
             let remainingDaysToDistribute = globalMasterPlan.filter(p => p.status === 'pending').length;
             
             if(remainingDaysToDistribute <= 1) {
-                alert("Not enough future operational days left to distribute balance. Appending tracking out to backend instead.");
                 resolveOptionA();
                 return;
             }
 
-            // Distribute items onto upcoming items directly
             globalMasterPlan.forEach(p => {
                 if(p.status === 'pending' && totalBacklogsLeftUnfinished > 0) {
                     p.back += 1;
                     totalBacklogsLeftUnfinished--;
                 }
                 if(p.status === 'crossed') {
-                    p.status = 'checked'; // Clear crossed state flags
+                    p.status = 'checked'; 
                 }
             });
 
             renderInterfaceCards();
-            alert("Plan Re-Cooked: Leftover classes balanced safely into upcoming remaining active days!");
         }
     </script>
 </body>
