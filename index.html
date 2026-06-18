@@ -54,6 +54,11 @@
         button.main-btn { width: 100%; padding: 16px; background: var(--btn-bg); color: var(--btn-text); border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s, opacity 0.2s; }
         button.main-btn:hover { transform: translateY(-2px); opacity: 0.9; }
 
+        /* SEO Content Box */
+        .seo-content { max-width: 550px; margin-top: 40px; padding: 0 20px; text-align: center; }
+        .seo-content h2 { font-size: 18px; color: var(--text-main); margin-bottom: 12px; }
+        .seo-content p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
         /* Master Plan Header */
         .plan-header-controls { width: 90%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .back-btn { background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s ease;}
@@ -81,7 +86,6 @@
         #plan-container { width: 90%; max-width: 600px; margin-top: 10px; margin-bottom: 40px; display: flex; flex-direction: column; gap: 12px; }
         .day-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease; }
         
-        /* Sequential Lock Style */
         .day-card.locked { opacity: 0.4; pointer-events: none; filter: grayscale(100%); }
         .lock-icon { display: none; font-size: 18px; margin-right: 10px; }
         .day-card.locked .lock-icon { display: inline-block; }
@@ -123,6 +127,8 @@
 
         footer { margin-top: auto; padding: 40px 20px; text-align: center; font-size: 13px; color: var(--text-muted); width: 100%; }
         footer span { color: var(--accent); font-weight: 600; }
+        .legal-link { color: var(--text-muted); text-decoration: underline; cursor: pointer; transition: color 0.2s; }
+        .legal-link:hover { color: var(--text-main); }
     </style>
 </head>
 <body>
@@ -135,6 +141,11 @@
     <h1 id="main-title">Backlog Killer Plan</h1>
 
     <div id="input-page">
+        <div class="quote-box">
+            <span class="quote-text" id="motivation-quote">"Loading your daily focus code..."</span>
+            <span class="quote-author" id="motivation-author"></span>
+        </div>
+
         <div class="container">
             <div class="input-grid">
                 <div class="input-group">
@@ -200,6 +211,11 @@
             </div>
             <button class="main-btn" onclick="initiateComeback()">Cook My Plan</button>
         </div>
+
+        <div class="seo-content">
+            <h2>About Mission Comeback Tool</h2>
+            <p>Mission Comeback is a comprehensive productivity calculator designed to help students overcome academic hurdles. By organizing your remaining syllabus, video lectures, and Daily Practice Problems (DPPs) against your maximum daily capacity, the algorithm generates an optimized, realistic calendar to ensure steady progress without burning out.</p>
+        </div>
     </div>
 
     <div id="plan-page">
@@ -252,7 +268,25 @@
         </div>
     </div>
 
-    <footer>Made by a student, <span>Chaitanya Sharma</span>, to help students in their journey to success.</footer>
+    <div class="modal-overlay" id="legal-modal">
+        <div class="modal-box" style="text-align: left;">
+            <h2 style="color: var(--text-main); font-size: 20px; margin-bottom: 15px;">Privacy & Terms</h2>
+            <p style="color: var(--text-muted); font-size: 13px; line-height: 1.6; margin-bottom: 10px;">
+                <strong>Data Processing:</strong> Mission Comeback is a utility tool. All tasks and schedule progress are stored strictly on your local browser storage. We do not transmit or sell personal data.
+            </p>
+            <p style="color: var(--text-muted); font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
+                <strong>Advertising:</strong> Third party vendors, including Google, use cookies to serve ads based on your prior visits to our website. You can opt out of personalized advertising by visiting Google's Ads Settings. By using this tool, you consent to these standard practices.
+            </p>
+            <button class="stacked-btn btn-purple" onclick="closeModal('legal-modal')">Understood</button>
+        </div>
+    </div>
+
+    <footer>
+        Made by a student, <span>Chaitanya Sharma</span>, to help students in their journey to success.<br>
+        <div style="margin-top: 15px;">
+            <a class="legal-link" onclick="openModal('legal-modal')">Privacy Policy & Terms of Service</a>
+        </div>
+    </footer>
 
     <script>
         // --- CUSTOM AUDIO SYNTHESIZER ---
@@ -304,25 +338,23 @@
                     gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.5);
                     osc.start(); osc.stop(audioCtx.currentTime + 1.5);
                 }
-            } catch(e) { console.log("Audio blocked by browser policy until interaction."); }
+            } catch(e) { console.log("Audio ready for next interaction."); }
         }
 
-        // --- Notifications ---
         function requestNotifications() {
             if (!("Notification" in window)) {
                 alert("This browser does not support desktop notification");
             } else if (Notification.permission === "granted") {
-                alert("Notifications are already enabled! You'll be reminded to hit your targets.");
+                alert("Notifications are already enabled! We will remind you to hit your targets.");
             } else if (Notification.permission !== "denied") {
                 Notification.requestPermission().then(permission => {
                     if (permission === "granted") {
-                        new Notification("Mission Comeback", { body: "Awesome! We will remind you to crush your backlogs." });
+                        new Notification("Mission Comeback", { body: "Awesome! Reminders are active." });
                     }
                 });
             }
         }
 
-        // --- Theme & Setup ---
         let isLightMode = false;
         function toggleTheme() {
             isLightMode = !isLightMode;
@@ -333,13 +365,24 @@
         function togglePill(element) { element.classList.toggle('active'); }
         function getSelectedOffDays() { return Array.from(document.querySelectorAll('.day-pill.active')).map(p => p.getAttribute('data-day')); }
 
+        const quotesRepository = [
+            { text: "If you quit now, you will end up right back where you first started wishing you were here.", author: "Anonymous" },
+            { text: "The backlog looks massive only until you decide to take the first step and destroy day one.", author: "Discipline Code" },
+            { text: "Do not wait for motivation. True execution is doing the work precisely when you do not feel like it.", author: "Focus Hub" }
+        ];
+
         let globalMasterPlan = [];
         let totalBacklogsToKill = 0;
         let killedBacklogs = 0;
         let originalLeftoverBacklogs = 0;
         let originalLeftoverDpps = 0;
 
-        window.addEventListener('DOMContentLoaded', () => { loadProgressFromStorage(); });
+        window.addEventListener('DOMContentLoaded', () => { 
+            const randomIndex = Math.floor(Math.random() * quotesRepository.length);
+            document.getElementById('motivation-quote').innerText = `"${quotesRepository[randomIndex].text}"`;
+            document.getElementById('motivation-author').innerText = `— ${quotesRepository[randomIndex].author}`;
+            loadProgressFromStorage(); 
+        });
 
         function openModal(id) {
             let m = document.getElementById(id); m.style.display = 'flex';
@@ -370,7 +413,6 @@
             }, 400);
         }
 
-        // --- Plan Generation ---
         function initiateComeback() {
             playSound('start'); 
             
@@ -465,7 +507,6 @@
             let duration = parseFloat(document.getElementById('class-duration').value);
 
             globalMasterPlan.forEach((item, index) => {
-                // SEQUENTIAL LOCKING
                 let isLocked = false;
                 if (index > 0 && globalMasterPlan[index-1].status === 'pending') {
                     isLocked = true;
@@ -496,7 +537,6 @@
             updateJourneyVisuals();
         }
 
-        // --- Endgame Logic Helper ---
         function triggerEndGameModal() {
             let isComplete = globalMasterPlan.every(p => p.status !== 'pending');
             if (isComplete) {
@@ -540,7 +580,6 @@
                 if(userReward !== "") {
                     document.getElementById('reward-display').innerText = userReward;
                 } else {
-                    // Fallback so the empty box bug is fixed!
                     document.getElementById('reward-display').innerText = "Discipline is the real prize. Keep pushing! 🚀";
                 }
                 openModal('reward-modal');
@@ -565,9 +604,7 @@
             saveProgressToStorage();
             
             let isEndGame = triggerEndGameModal();
-            if(!isEndGame) {
-                playSound('fail'); 
-            }
+            if(!isEndGame) { playSound('fail'); }
             
             renderInterfaceCards(); 
         }
@@ -590,7 +627,6 @@
             else { document.getElementById('journey-title').style.color = 'var(--text-main)'; }
         }
 
-        // --- Alert Panel & Re-cook Options ---
         function evaluateAlertState() {
             let crossedMissed = 0;
             globalMasterPlan.forEach(item => { if(item.status === 'crossed') { crossedMissed += (item.back + item.dpp); } });
@@ -693,7 +729,6 @@
             renderInterfaceCards();
         }
 
-        // Local Storage Engine
         function saveProgressToStorage() {
             localStorage.setItem('chaitanya_master_plan', JSON.stringify(globalMasterPlan));
             localStorage.setItem('chaitanya_total_targets', totalBacklogsToKill);
