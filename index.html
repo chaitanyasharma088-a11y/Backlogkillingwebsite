@@ -496,6 +496,29 @@
             updateJourneyVisuals();
         }
 
+        // --- Endgame Logic Helper ---
+        function triggerEndGameModal() {
+            let isComplete = globalMasterPlan.every(p => p.status !== 'pending');
+            if (isComplete) {
+                playSound('trophy'); 
+                let rawPercentage = (killedBacklogs / totalBacklogsToKill) * 100;
+                document.getElementById('celebration-icon').innerText = "🏆";
+                
+                if (rawPercentage >= 100) {
+                    document.getElementById('celebration-title').innerText = "FLAWLESS VICTORY!";
+                    document.getElementById('celebration-subtitle').innerText = "CHAITANYA SHARMA presents: Perfect run! You destroyed your backlog with zero misses. 🔥";
+                    document.getElementById('reward-display').innerText = "🎯 100% ELITE TRAJECTORY LOCKED";
+                } else {
+                    document.getElementById('celebration-title').innerText = "MISSION ACCOMPLISHED!";
+                    document.getElementById('celebration-subtitle').innerText = "CHAITANYA SHARMA presents: You reached the end of the calendar. Great effort, keep building momentum!";
+                    document.getElementById('reward-display').innerText = `📊 Final Score: ${Math.round(rawPercentage)}%`;
+                }
+                openModal('reward-modal');
+                return true;
+            }
+            return false;
+        }
+
         function markChecked(dayNum) {
             let targetItem = globalMasterPlan.find(p => p.dayNum === dayNum);
             if(targetItem.status === 'checked') return;
@@ -504,24 +527,23 @@
             recalculateKilledCount();
             saveProgressToStorage();
 
-            let rawPercentage = (killedBacklogs / totalBacklogsToKill) * 100;
-            if (rawPercentage >= 100) {
-                playSound('trophy'); 
-                document.getElementById('celebration-icon').innerText = "🏆";
-                document.getElementById('celebration-title').innerText = "MISSION ACCOMPLISHED!";
-                document.getElementById('celebration-subtitle').innerText = "CHAITANYA SHARMA presents: You absolutely destroyed your backlog. Your journey to success begins here! 🔥";
-                document.getElementById('reward-display').innerText = "🎯 100% ELITE TRAJECTORY LOCKED";
-                openModal('reward-modal');
-            } else {
+            let isEndGame = triggerEndGameModal();
+
+            if (!isEndGame) {
                 playSound('woohoo'); 
-                let userReward = document.getElementById('daily-reward').value;
-                if(userReward.trim() !== "") {
-                    document.getElementById('celebration-icon').innerText = "⭐";
-                    document.getElementById('celebration-title').innerText = "DAY KILLED!";
-                    document.getElementById('celebration-subtitle').innerText = "Claim your daily reward:";
+                let userReward = document.getElementById('daily-reward').value.trim();
+                
+                document.getElementById('celebration-icon').innerText = "⭐";
+                document.getElementById('celebration-title').innerText = "DAY KILLED!";
+                document.getElementById('celebration-subtitle').innerText = "Claim your daily reward:";
+                
+                if(userReward !== "") {
                     document.getElementById('reward-display').innerText = userReward;
-                    openModal('reward-modal');
+                } else {
+                    // Fallback so the empty box bug is fixed!
+                    document.getElementById('reward-display').innerText = "Discipline is the real prize. Keep pushing! 🚀";
                 }
+                openModal('reward-modal');
             }
 
             let card = document.getElementById(`day-card-${dayNum}`);
@@ -539,9 +561,14 @@
             if(targetItem.status === 'crossed') return;
             targetItem.status = 'crossed';
             
-            playSound('fail'); 
             recalculateKilledCount();
             saveProgressToStorage();
+            
+            let isEndGame = triggerEndGameModal();
+            if(!isEndGame) {
+                playSound('fail'); 
+            }
+            
             renderInterfaceCards(); 
         }
 
@@ -639,7 +666,7 @@
                 if(item.status === 'crossed') { 
                     crossedMissedBacklogs += item.back; 
                     crossedMissedDpps += item.dpp; 
-                    item.status = 'crossed-resolved'; // Mark them resolved so we don't count them again
+                    item.status = 'crossed-resolved';
                 } 
             });
 
@@ -650,7 +677,7 @@
             originalLeftoverDpps = 0;
 
             let remainingDays = globalMasterPlan.filter(p => p.status === 'pending').length;
-            if(remainingDays <= 1) { resolveOptionA(); return; } // Default to append if no days left to re-cook
+            if(remainingDays <= 1) { resolveOptionA(); return; }
 
             globalMasterPlan.forEach(p => {
                 if(p.status === 'pending') { 
@@ -659,7 +686,6 @@
                 }
             });
             
-            // If any spill over after attempting to spread evenly, pass them back to leftovers
             originalLeftoverBacklogs = poolBacklogs;
             originalLeftoverDpps = poolDpps;
 
@@ -695,4 +721,4 @@
         }
     </script>
 </body>
-</html>s
+</html>
