@@ -5,45 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backlog Killer | Mission Comeback</title>
     <style>
-        /* Ultra-Clean Modern Aesthetic */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+
+        /* CSS Variables for seamless theme switching */
+        :root {
+            --bg-color: #09090b;
+            --text-main: #fafafa;
+            --text-muted: #a1a1aa;
+            --container-bg: rgba(24, 24, 27, 0.6);
+            --border-color: rgba(255, 255, 255, 0.05);
+            --input-bg: #09090b;
+            --card-bg: rgba(24, 24, 27, 0.8);
+            --accent: #a855f7;
+            --btn-bg: #fafafa;
+            --btn-text: #09090b;
+            --pill-bg: #18181b;
+        }
+
+        /* Light Theme Overrides */
+        body.light-theme {
+            --bg-color: #fafaf9;
+            --text-main: #1c1917;
+            --text-muted: #78716c;
+            --container-bg: #ffffff;
+            --border-color: #e7e5e4;
+            --input-bg: #f5f5f4;
+            --card-bg: #ffffff;
+            --btn-bg: #1c1917;
+            --btn-text: #ffffff;
+            --pill-bg: #f5f5f4;
+        }
 
         body {
             margin: 0;
             padding: 0;
-            background-color: #09090b; /* Deep matte black */
-            color: #fafafa;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             font-family: 'Inter', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* The "Impact" Flash Effect */
-        body.flash {
-            animation: impactFlash 0.6s ease-out;
+        /* Theme Toggle Button */
+        #theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--container-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        @keyframes impactFlash {
-            0% { background-color: #3b0764; }
-            100% { background-color: #09090b; }
+        #theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--accent);
         }
 
         .bangle {
-            margin-top: 50px;
+            margin-top: 60px;
             padding: 6px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
             border-radius: 50px;
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: #a855f7;
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+            color: var(--accent);
         }
 
         h1 {
@@ -58,36 +100,35 @@
         .quote-box {
             text-align: center;
             max-width: 500px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             padding: 0 20px;
         }
 
         .quote-text {
             font-size: 15px;
-            color: #a1a1aa;
+            color: var(--text-muted);
             line-height: 1.6;
-            font-weight: 400;
             font-style: italic;
         }
 
         .quote-author {
             display: block;
             font-size: 12px;
-            color: #a855f7;
-            font-weight: 600;
+            color: var(--accent);
+            font-weight: 700;
             margin-top: 8px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .container {
-            background: rgba(24, 24, 27, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--container-bg);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 40px;
+            padding: 35px;
             width: 90%;
             max-width: 550px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
         }
 
         .input-grid {
@@ -97,6 +138,19 @@
             margin-bottom: 30px;
         }
 
+        /* Mobile Fix: Flex layout for inputs */
+        .grid-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 550px) {
+            .grid-row {
+                grid-template-columns: 1fr; /* Stacks inputs vertically on phones */
+            }
+        }
+
         .input-group {
             display: flex;
             flex-direction: column;
@@ -104,48 +158,84 @@
 
         label {
             font-size: 14px;
-            color: #a1a1aa;
+            color: var(--text-muted);
             margin-bottom: 8px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         input, select {
             padding: 14px;
-            background: #09090b;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
             border-radius: 10px;
-            color: white;
+            color: var(--text-main);
             font-family: inherit;
             font-size: 15px;
             outline: none;
+            transition: all 0.2s;
         }
 
-        button {
+        input:focus, select:focus {
+            border-color: var(--accent);
+        }
+
+        /* Multi-Select Pills */
+        .pill-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .day-pill {
+            padding: 8px 14px;
+            background: var(--pill-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .day-pill.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        /* Highlighted Reward Input */
+        .reward-input {
+            border-color: rgba(168, 85, 247, 0.4);
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        button.main-btn {
             width: 100%;
             padding: 16px;
-            background: #fafafa;
-            color: #09090b;
+            background: var(--btn-bg);
+            color: var(--btn-text);
             border: none;
             border-radius: 10px;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
+            transition: transform 0.2s, opacity 0.2s;
         }
 
-        button:hover {
+        button.main-btn:hover {
             transform: translateY(-2px);
-            background: #e4e4e7;
+            opacity: 0.9;
         }
 
-        /* JOURNEY PROGRESS VISUAL */
+        /* Journey Progress */
         #journey-visual-container {
             width: 90%;
             max-width: 600px;
             margin-top: 40px;
             padding: 25px;
-            background: rgba(24, 24, 27, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--container-bg);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             display: none;
             flex-direction: column;
@@ -156,27 +246,24 @@
             position: relative;
             width: 100%;
             height: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--border-color);
             border-radius: 50px;
             margin-top: 25px;
             margin-bottom: 10px;
         }
 
-        /* Flipped Runner to face forward */
         .runner-icon {
             position: absolute;
             left: 0%;
             top: -30px;
             width: 32px;
             height: 32px;
-            background-color: transparent;
-            color: #a855f7;
+            color: var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            transform: translateX(-50%) scaleX(-1); /* Flips icon to face right */
+            transform: translateX(-50%) scaleX(-1);
             transition: left 0.6s cubic-bezier(0.33, 1, 0.68, 1);
         }
 
@@ -184,51 +271,16 @@
             position: absolute;
             right: -10px;
             top: -30px;
-            color: rgba(255, 255, 255, 0.3);
             font-size: 20px;
         }
 
         .progress-status {
             font-size: 14px;
-            color: #a1a1aa;
-            font-weight: 500;
-        }
-
-        #live-alert-panel {
-            width: 90%;
-            max-width: 600px;
-            margin-top: 30px;
-            background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(24, 24, 27, 0.8) 100%);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            display: none;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .alert-header {
-            font-size: 15px;
-            font-weight: 700;
-            color: #fca5a5;
-        }
-
-        .alert-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .mini-btn {
-            padding: 8px 14px;
-            font-size: 12px;
+            color: var(--text-muted);
             font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            border: none;
         }
-        .btn-extend { background: #a855f7; color: white; }
-        .btn-recook { background: #27272a; color: #fafafa; border: 1px solid rgba(255,255,255,0.1); }
 
+        /* Plan Output */
         #plan-container {
             width: 90%;
             max-width: 600px;
@@ -240,113 +292,78 @@
         }
 
         .day-card {
-            position: relative;
-            background: rgba(24, 24, 27, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
         }
 
-        .card-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
+        .card-left { display: flex; align-items: center; gap: 14px; }
+        .action-buttons { display: flex; gap: 8px; }
 
         .status-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: #18181b;
-            color: #a1a1aa;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
+            width: 32px; height: 32px; border-radius: 8px;
+            border: 1px solid var(--border-color); background: var(--pill-bg);
+            color: var(--text-muted); cursor: pointer; display: flex;
+            align-items: center; justify-content: center; transition: all 0.2s ease;
         }
+        .btn-check:hover, .day-card.status-checked .btn-check { background: #22c55e; color: white; border-color: #22c55e; }
+        .btn-cross:hover, .day-card.status-crossed .btn-cross { background: #ef4444; color: white; border-color: #ef4444; }
 
-        .btn-check:hover, .day-card.status-checked .btn-check {
-            background: #22c55e;
-            color: white;
-            border-color: #22c55e;
-        }
-
-        .btn-cross:hover, .day-card.status-crossed .btn-cross {
-            background: #ef4444;
-            color: white;
-            border-color: #ef4444;
-        }
-
-        .day-card.status-checked {
-            opacity: 0.5;
-            background: rgba(34, 197, 94, 0.03);
-        }
-        .day-card.status-checked .backlog-text { text-decoration: line-through; color: #71717a; }
-
-        .day-card.status-crossed {
-            border-color: rgba(239, 68, 68, 0.3);
-            background: rgba(239, 68, 68, 0.03);
-        }
-        .day-card.status-crossed .backlog-text { color: #f87171; font-style: italic; }
-
-        .day-card.off-day { border-left: 4px solid #a855f7; }
+        .day-card.status-checked { opacity: 0.5; }
+        .day-card.status-checked .backlog-text { text-decoration: line-through; }
+        .day-card.status-crossed .backlog-text { color: #ef4444; }
+        .day-card.off-day { border-left: 4px solid var(--accent); }
 
         .day-info { display: flex; flex-direction: column; gap: 4px; }
-        .day-name { font-size: 16px; font-weight: 700; }
-        .date-text { font-size: 13px; color: #71717a; }
-        
+        .day-name { font-size: 16px; font-weight: 700; color: var(--text-main); }
+        .date-text { font-size: 13px; color: var(--text-muted); }
         .workload-info { text-align: right; display: flex; flex-direction: column; gap: 4px; }
-        .backlog-text { font-size: 15px; font-weight: 700; }
-        .regular-text { font-size: 13px; color: #71717a; }
+        .backlog-text { font-size: 15px; font-weight: 700; color: var(--text-main); }
+        .regular-text { font-size: 13px; color: var(--text-muted); }
 
-        .show { opacity: 1; transform: translateY(0); }
-
-        @keyframes thumbsUpPop {
-            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-60px) scale(1.2) rotate(-15deg); opacity: 0; }
+        /* Reward Modal Pop-Up */
+        #reward-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; transition: opacity 0.3s ease;
         }
 
-        .floating-emoji {
-            position: absolute;
-            left: 30px;
-            font-size: 24px;
-            pointer-events: none;
-            animation: thumbsUpPop 0.8s ease-out forwards;
+        .reward-content {
+            background: var(--container-bg);
+            border: 1px solid var(--accent);
+            padding: 40px; border-radius: 20px;
+            text-align: center; max-width: 400px;
+            transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.2);
+        }
+
+        .reward-icon { font-size: 50px; margin-bottom: 15px; }
+        .reward-title { font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 10px;}
+        .reward-text { font-size: 18px; color: var(--accent); font-weight: 700; margin-bottom: 25px; background: rgba(168, 85, 247, 0.1); padding: 10px; border-radius: 8px;}
+        
+        .close-reward {
+            background: var(--btn-bg); color: var(--btn-text);
+            border: none; padding: 10px 24px; border-radius: 8px;
+            font-weight: 700; cursor: pointer;
         }
 
         footer {
-            margin-top: auto;
-            padding: 40px 20px;
-            text-align: center;
-            font-size: 13px;
-            color: #52525b;
-            letter-spacing: 0.3px;
-            line-height: 1.5;
-            font-weight: 400;
+            margin-top: auto; padding: 40px 20px; text-align: center;
+            font-size: 13px; color: var(--text-muted);
         }
-
-        footer span {
-            color: #a855f7;
-            font-weight: 500;
-        }
+        footer span { color: var(--accent); font-weight: 600; }
     </style>
 </head>
 <body>
+
+    <button id="theme-toggle" onclick="toggleTheme()">☀️</button>
 
     <div class="bangle">🔥 Mission Comeback</div>
     <h1>Backlog Killer Plan</h1>
@@ -358,7 +375,13 @@
 
     <div class="container">
         <div class="input-grid">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            
+            <div class="input-group">
+                <label>🎉 My Daily Reward (When I crush my goal)</label>
+                <input type="text" id="daily-reward" class="reward-input" placeholder="e.g. 1 hour of gaming, Watch Anime">
+            </div>
+
+            <div class="grid-row">
                 <div class="input-group">
                     <label>Total Backlog Classes</label>
                     <input type="number" id="backlog-total" value="15">
@@ -373,7 +396,7 @@
                 </div>
             </div>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="grid-row">
                 <div class="input-group">
                     <label>Regular Classes (Daily)</label>
                     <input type="number" id="regular-classes" value="3">
@@ -384,26 +407,31 @@
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="grid-row">
                 <div class="input-group">
                     <label>Target Deadline (Days)</label>
                     <input type="number" id="days-total" value="20">
                 </div>
                 <div class="input-group">
-                    <label>Dedicated Off-Day</label>
-                    <select id="off-day">
-                        <option value="Sunday">Sunday</option>
-                        <option value="None">None</option>
-                    </select>
+                    <label>Dedicated Off-Days (Select Multiple)</label>
+                    <div class="pill-container" id="off-days-container">
+                        <div class="day-pill" data-day="Monday" onclick="togglePill(this)">M</div>
+                        <div class="day-pill" data-day="Tuesday" onclick="togglePill(this)">T</div>
+                        <div class="day-pill" data-day="Wednesday" onclick="togglePill(this)">W</div>
+                        <div class="day-pill" data-day="Thursday" onclick="togglePill(this)">Th</div>
+                        <div class="day-pill" data-day="Friday" onclick="togglePill(this)">F</div>
+                        <div class="day-pill" data-day="Saturday" onclick="togglePill(this)">S</div>
+                        <div class="day-pill active" data-day="Sunday" onclick="togglePill(this)">Su</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <button onclick="initiateComeback()">Cook My Plan</button>
+        <button class="main-btn" onclick="initiateComeback()">Cook My Plan</button>
     </div>
 
     <div id="journey-visual-container">
-        <div class="progress-status" id="journey-title">RACE TO SUCCESS (0%)</div>
+        <div class="progress-status" id="journey-title" style="color: var(--text-main);">RACE TO SUCCESS (0%)</div>
         <div class="journey-track">
             <div class="runner-icon" id="runner">🏃</div>
             <div class="success-icon">🚩</div>
@@ -411,70 +439,60 @@
         <div class="progress-status" id="journey-status">0 / 0 Backlogs Killed</div>
     </div>
 
-    <div id="live-alert-panel">
-        <div class="alert-header" id="alert-text">Plan Alert: You have remaining classes left over.</div>
-        <div class="alert-actions">
-            <button class="mini-btn btn-extend" onclick="resolveOptionA()">Do Them After Plan Ends</button>
-            <button class="mini-btn btn-recook" onclick="resolveOptionB()">Re-Cook Remaining Days</button>
+    <div id="plan-container"></div>
+
+    <div id="reward-modal">
+        <div class="reward-content" id="reward-box">
+            <div class="reward-icon">🏆</div>
+            <div class="reward-title">DAY KILLED!</div>
+            <p style="color: var(--text-muted); margin-bottom: 8px;">Claim your reward:</p>
+            <div class="reward-text" id="reward-display">1 Hour of Gaming</div>
+            <button class="close-reward" onclick="closeRewardModal()">Lock it in</button>
         </div>
     </div>
-
-    <div id="plan-container"></div>
 
     <footer>
         Made by a student, <span>Chaitanya Sharma</span>, to help students in their journey to success.
     </footer>
 
     <script>
+        // --- Theme Toggle Logic ---
+        let isLightMode = false;
+        function toggleTheme() {
+            isLightMode = !isLightMode;
+            document.body.classList.toggle('light-theme', isLightMode);
+            document.getElementById('theme-toggle').innerText = isLightMode ? '🌙' : '☀️';
+        }
+
+        // --- Off-Day Pill Logic ---
+        function togglePill(element) {
+            element.classList.toggle('active');
+        }
+
+        function getSelectedOffDays() {
+            let activePills = document.querySelectorAll('.day-pill.active');
+            return Array.from(activePills).map(pill => pill.getAttribute('data-day'));
+        }
+
+        // --- Quotes ---
         const quotesRepository = [
             { text: "If you quit now, you will end up right back where you first started wishing you were here.", author: "Anonymous" },
             { text: "The backlog looks massive only until you decide to take the first step and destroy day one.", author: "Discipline Code" },
-            { text: "Do not wait for motivation. True execution is doing the work precisely when you do not feel like it.", author: "Focus Hub" },
-            { text: "You don't need a fresh path to restart. You just need a definitive decision to finish your day strong.", author: "Mindset" },
-            { text: "Great comebacks do not require miracles. They simply demand raw, uncompromised daily consistency.", author: "Execution Core" },
-            { text: "Your future profile is constructed directly by the choices you commit to right this very second.", author: "Growth Path" },
-            { text: "Suffer the temporary weight of discipline today, or carry the endless weight of regret tomorrow.", author: "Legacy" },
-            { text: "The absolute best way to accurately predict your destiny is to proactively create it step by step.", author: "Vision" },
-            { text: "Focus is the profound ability to say a strict no to all secondary choices vying for your attention.", author: "Deep Work" },
-            { text: "Small, daily execution benchmarks compound over time into massive, unbelievable transformations.", author: "Atomic Flow" },
-            { text: "Your potential expands dynamically the exact moment you choose to stop negotiating with your comfort zone.", author: "Peak Performance" },
-            { text: "Do not look at the entire peak. Just focus entirely on making your current step perfect.", author: "Climb Mechanics" },
-            { text: "The secret to getting ahead is simply choosing to finally start moving forward.", author: "Progress System" },
-            { text: "Energy flows precisely where your dedicated focus and immediate attention goes.", author: "Mind Architecture" },
-            { text: "Consistency is what transforms a casual goal into an absolute, undeniable reality.", author: "Daily Grind" },
-            { text: "You are entirely one single decision away from experiencing a completely different trajectory.", author: "Pivot State" },
-            { text: "Do not fear slow progress. Fear standing completely still while time continues to move.", author: "Velocity Core" },
-            { text: "The work you do in the complete dark is what eventually brings you into the light.", author: "Silent Grind" },
-            { text: "Stop wishing it were easier. Start focusing your energy on becoming better prepared.", author: "Mind Armor" },
-            { text: "He who has a clear, unyielding purpose can easily survive almost any daily obstacle.", author: "Drive Mechanics" },
-            { text: "Amateurs wait for ideal conditions. True professionals simply get up and execute regardless.", author: "Mastery Flow" },
-            { text: "Action kills all anxiety. Execution systematically eliminates every single doubt.", author: "Clarity Engine" },
-            { text: "You cannot change your past progress, but you completely own your next performance.", author: "Reset Code" },
-            { text: "The pain of studying is completely temporary. The ultimate pride of succeeding lasts forever.", author: "Victory Engine" },
-            { text: "Be proud of how far you have come, and stay completely focused on where you are heading.", author: "Horizon Line" }
+            { text: "Do not wait for motivation. True execution is doing the work precisely when you do not feel like it.", author: "Focus Hub" }
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
             const randomIndex = Math.floor(Math.random() * quotesRepository.length);
-            const selectedQuote = quotesRepository[randomIndex];
-            document.getElementById('motivation-quote').innerText = `"${selectedQuote.text}"`;
-            document.getElementById('motivation-author').innerText = `— ${selectedQuote.author}`;
+            document.getElementById('motivation-quote').innerText = `"${quotesRepository[randomIndex].text}"`;
+            document.getElementById('motivation-author').innerText = `— ${quotesRepository[randomIndex].author}`;
         });
 
+        // --- Global State ---
         let globalMasterPlan = [];
         let totalBacklogsToKill = 0;
         let killedBacklogs = 0;
-        let totalBacklogsLeftUnfinished = 0;
 
         function initiateComeback() {
-            document.body.classList.remove('flash');
-            void document.body.offsetWidth; 
-            document.body.classList.add('flash');
-
-            document.getElementById('live-alert-panel').style.display = 'none';
-            totalBacklogsLeftUnfinished = 0;
-            killedBacklogs = 0;
-
             buildScheduleEngine();
         }
 
@@ -487,9 +505,10 @@
             let targetDays = parseInt(document.getElementById('days-total').value);
             let baseRegular = parseInt(document.getElementById('regular-classes').value);
             let maxDailyClasses = parseInt(document.getElementById('max-classes').value);
-            let chosenOffDay = document.getElementById('off-day').value;
+            let chosenOffDays = getSelectedOffDays(); // Array of days
 
             totalBacklogsToKill = backlogs;
+            killedBacklogs = 0;
             updateJourneyVisuals();
             document.getElementById('journey-visual-container').style.display = 'flex';
 
@@ -500,9 +519,8 @@
             let currentDayCount = 0;
 
             while (backlogs > 0) {
-                let currentDayIndex = currentDate.getDay();
-                let todayName = dayNames[currentDayIndex];
-                let isOffDay = (todayName === chosenOffDay);
+                let todayName = dayNames[currentDate.getDay()];
+                let isOffDay = chosenOffDays.includes(todayName); // Checks multi-select array
                 
                 let regularToday = isOffDay ? 0 : baseRegular;
                 let availableSlots = Math.max(0, maxDailyClasses - regularToday);
@@ -531,16 +549,14 @@
         function renderInterfaceCards() {
             const container = document.getElementById('plan-container');
             container.innerHTML = '';
-
             let duration = parseFloat(document.getElementById('class-duration').value);
 
-            globalMasterPlan.forEach((item, index) => {
+            globalMasterPlan.forEach((item) => {
                 let card = document.createElement('div');
                 card.className = `day-card ${item.isOffDay ? 'off-day' : ''} ${item.status === 'checked' ? 'status-checked' : ''} ${item.status === 'crossed' ? 'status-crossed' : ''}`;
                 card.id = `day-card-${item.dayNum}`;
 
-                let totalHours = item.back * duration;
-                let backlogString = item.back === 0 ? "Rest / Revise" : `+${item.back} Backlogs (${totalHours} hrs)`;
+                let backlogString = item.back === 0 ? "Rest / Revise" : `+${item.back} Backlogs`;
                 let regularString = item.reg === 0 ? "No Regular Classes" : `${item.reg} Reg. Classes`;
 
                 card.innerHTML = `
@@ -559,12 +575,8 @@
                         <span class="regular-text">${regularString}</span>
                     </div>
                 `;
-
                 container.appendChild(card);
-                card.classList.add('show');
             });
-
-            evaluateAlertState();
             updateJourneyVisuals();
         }
 
@@ -572,39 +584,40 @@
             let targetItem = globalMasterPlan.find(p => p.dayNum === dayNum);
             if(targetItem.status === 'checked') return;
             
-            if(targetItem.status === 'crossed') {
-                // If moving from crossed to checked, don't double count
-            }
-            
             targetItem.status = 'checked';
-            
-            let card = document.getElementById(`day-card-${dayNum}`);
-            let emoji = document.createElement('div');
-            emoji.className = 'floating-emoji';
-            emoji.innerText = '👍';
-            card.appendChild(emoji);
-            setTimeout(() => emoji.remove(), 800);
-
             recalculateKilledCount();
             renderInterfaceCards();
+
+            // Reward System Check
+            let userReward = document.getElementById('daily-reward').value;
+            if(userReward.trim() !== "") {
+                document.getElementById('reward-display').innerText = userReward;
+                let modal = document.getElementById('reward-modal');
+                let box = document.getElementById('reward-box');
+                modal.style.display = 'flex';
+                setTimeout(() => { modal.style.opacity = '1'; box.style.transform = 'scale(1)'; }, 10);
+            }
         }
 
         function markCrossed(dayNum) {
             let targetItem = globalMasterPlan.find(p => p.dayNum === dayNum);
             if(targetItem.status === 'crossed') return;
-
             targetItem.status = 'crossed';
             recalculateKilledCount();
             renderInterfaceCards();
         }
 
+        function closeRewardModal() {
+            let modal = document.getElementById('reward-modal');
+            let box = document.getElementById('reward-box');
+            modal.style.opacity = '0';
+            box.style.transform = 'scale(0.8)';
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+        }
+
         function recalculateKilledCount() {
             let count = 0;
-            globalMasterPlan.forEach(item => {
-                if(item.status === 'checked') {
-                    count += item.back;
-                }
-            });
+            globalMasterPlan.forEach(item => { if(item.status === 'checked') { count += item.back; } });
             killedBacklogs = count;
         }
 
@@ -613,69 +626,10 @@
             let percentage = totalBacklogsToKill > 0 ? Math.min(100, Math.round(rawPercentage)) : 0;
 
             document.getElementById('runner').style.left = `${percentage}%`;
-            
             document.getElementById('journey-title').innerText = `RACE TO SUCCESS (${percentage}%)`;
             document.getElementById('journey-status').innerText = `${killedBacklogs} / ${totalBacklogsToKill} Backlogs Killed`;
 
-            if(percentage === 100) {
-                document.getElementById('journey-title').innerText = "MISSION ACCOMPLISHED (100%)";
-                document.getElementById('journey-title').style.color = "#22c55e";
-            } else {
-                document.getElementById('journey-title').style.color = "#fafafa";
-            }
-        }
-
-        function evaluateAlertState() {
-            let missedClasses = 0;
-            globalMasterPlan.forEach(item => {
-                if(item.status === 'crossed') {
-                    missedClasses += item.back;
-                }
-            });
-
-            totalBacklogsLeftUnfinished = missedClasses;
-            let alertBox = document.getElementById('live-alert-panel');
-            
-            if(missedClasses > 0) {
-                document.getElementById('alert-text').innerText = `⚠️ Schedule Alert: You have missed targets. After Day ${globalMasterPlan.length}, you will have ${missedClasses} backlogs remaining left over.`;
-                alertBox.style.display = 'flex';
-            } else {
-                alertBox.style.display = 'none';
-            }
-        }
-
-        function resolveOptionA() {
-            if(totalBacklogsLeftUnfinished <= 0) return;
-            
-            let currentTotalBacklogs = parseInt(document.getElementById('backlog-total').value);
-            document.getElementById('backlog-total').value = currentTotalBacklogs + totalBacklogsLeftUnfinished;
-            
-            globalMasterPlan.forEach(p => { if(p.status === 'crossed') p.status = 'checked'; });
-            
-            buildScheduleEngine();
-        }
-
-        function resolveOptionB() {
-            if(totalBacklogsLeftUnfinished <= 0) return;
-
-            let remainingDaysToDistribute = globalMasterPlan.filter(p => p.status === 'pending').length;
-            
-            if(remainingDaysToDistribute <= 1) {
-                resolveOptionA();
-                return;
-            }
-
-            globalMasterPlan.forEach(p => {
-                if(p.status === 'pending' && totalBacklogsLeftUnfinished > 0) {
-                    p.back += 1;
-                    totalBacklogsLeftUnfinished--;
-                }
-                if(p.status === 'crossed') {
-                    p.status = 'checked'; 
-                }
-            });
-
-            renderInterfaceCards();
+            if(percentage === 100) { document.getElementById('journey-title').style.color = "#22c55e"; } 
         }
     </script>
 </body>
