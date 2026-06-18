@@ -36,8 +36,7 @@
 
         body {
             margin: 0; padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            background-color: var(--bg-color); color: var(--text-main);
             font-family: 'Inter', sans-serif;
             display: flex; flex-direction: column; align-items: center;
             min-height: 100vh; overflow-x: hidden;
@@ -65,27 +64,38 @@
         .pill-container { display: flex; gap: 8px; flex-wrap: wrap; }
         .day-pill { padding: 8px 14px; background: var(--pill-bg); border: 1px solid var(--border-color); border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; }
         .day-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
+        .reward-input { border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.05); }
+
         button.main-btn { width: 100%; padding: 16px; background: var(--btn-bg); color: var(--btn-text); border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s, opacity 0.2s; }
         button.main-btn:hover { transform: translateY(-2px); opacity: 0.9; }
 
-        /* Journey Progress Track & Flipped Color Fill Style */
+        /* Progress Visual Engine */
         #journey-visual-container { width: 90%; max-width: 600px; margin-top: 40px; padding: 25px; background: var(--container-bg); border: 1px solid var(--border-color); border-radius: 16px; display: none; flex-direction: column; align-items: center; }
         .journey-track { position: relative; width: 100%; height: 12px; background: rgba(255,255,255,0.05); border-radius: 50px; margin-top: 25px; margin-bottom: 10px; overflow: visible; }
         .track-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: linear-gradient(90deg, #c084fc, var(--accent)); border-radius: 50px; transition: width 0.6s cubic-bezier(0.33, 1, 0.68, 1); }
         .runner-icon { position: absolute; left: 0%; top: -30px; width: 32px; height: 32px; color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; transform: translateX(-50%) scaleX(-1); transition: left 0.6s cubic-bezier(0.33, 1, 0.68, 1); }
         .success-icon { position: absolute; right: -10px; top: -30px; font-size: 20px; }
+        .progress-status { font-size: 14px; color: var(--text-muted); font-weight: 600; }
 
-        /* Universal Modals Style Engine */
+        /* Restored Live Alerts Panel (Re-cook options) */
+        #live-alert-panel { width: 90%; max-width: 600px; margin-top: 30px; background: linear-gradient(90deg, rgba(239, 68, 68, 0.15) 0%, var(--container-bg) 100%); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 20px; display: none; flex-direction: column; gap: 15px; }
+        .alert-header { font-size: 15px; font-weight: 700; color: #fca5a5; line-height: 1.4; }
+        .alert-actions { display: flex; gap: 12px; }
+        .mini-btn { padding: 8px 14px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; border: none; }
+        .btn-extend { background: var(--accent); color: white; }
+        .btn-recook { background: var(--pill-bg); color: var(--text-main); border: 1px solid var(--border-color); }
+
+        /* Universal Modals */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; align-items: center; justify-content: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
         .modal-box { background: var(--bg-color); border: 1px solid var(--accent); padding: 40px; border-radius: 20px; text-align: center; width: 90%; max-width: 420px; transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 0 50px rgba(168, 85, 247, 0.2); }
-        
         .modal-actions-stacked { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
         .stacked-btn { width: 100%; padding: 12px; font-size: 14px; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s; }
         .btn-purple { background: var(--accent); color: white; }
         .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
 
+        /* Plan Layout */
         #plan-container { width: 90%; max-width: 600px; margin-top: 20px; margin-bottom: 40px; display: flex; flex-direction: column; gap: 12px; }
-        .day-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; align-items: center; justify-content: space-between; }
+        .day-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease; }
         .card-left { display: flex; align-items: center; gap: 14px; }
         .action-buttons { display: flex; gap: 8px; }
 
@@ -94,8 +104,9 @@
         .btn-cross:hover, .day-card.status-crossed .btn-cross { background: #ef4444; color: white; border-color: #ef4444; }
 
         .day-card.status-checked { opacity: 0.5; background: rgba(34, 197, 94, 0.02); }
-        .day-card.status-checked .backlog-text, .day-card.status-checked .dpp-text { text-decoration: line-through; }
-        .day-card.status-crossed { border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.02); }
+        .day-card.status-checked .backlog-text, .day-card.status-checked .dpp-text { text-decoration: line-through; color: var(--text-muted); }
+        .day-card.status-crossed { border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.04); }
+        .day-card.status-crossed .backlog-text, .day-card.status-crossed .dpp-text { color: #f87171; }
         .day-card.off-day { border-left: 4px solid var(--accent); }
 
         .day-info { display: flex; flex-direction: column; gap: 4px; }
@@ -141,13 +152,6 @@
                     <input type="number" id="backlog-total" value="15">
                 </div>
                 <div class="input-group">
-                    <label>Total Unsolved DPPs</label>
-                    <input type="number" id="dpp-total" value="10">
-                </div>
-            </div>
-            
-            <div class="grid-row">
-                <div class="input-group">
                     <label>Duration of 1 Class</label>
                     <select id="class-duration">
                         <option value="1">1 Hour</option>
@@ -155,35 +159,49 @@
                         <option value="2" selected>2 Hours</option>
                     </select>
                 </div>
+            </div>
+
+            <div class="grid-row">
                 <div class="input-group">
-                    <label>Target Deadline (Days)</label>
-                    <input type="number" id="days-total" value="20">
+                    <label>Total Unsolved DPPs</label>
+                    <input type="number" id="dpp-total" value="10">
+                </div>
+                <div class="input-group">
+                    <label>Max DPPs Allowed/Day</label>
+                    <input type="number" id="max-dpps" value="2">
                 </div>
             </div>
             
             <div class="grid-row">
                 <div class="input-group">
+                    <label>Target Deadline (Days)</label>
+                    <input type="number" id="days-total" value="20">
+                </div>
+                <div class="input-group">
                     <label>Regular Classes (Daily)</label>
                     <input type="number" id="regular-classes" value="3">
                 </div>
+            </div>
+            
+            <div class="grid-row">
                 <div class="input-group">
                     <label>Max Classes Allowed/Day</label>
                     <input type="number" id="max-classes" value="4">
                 </div>
-            </div>
-
-            <div class="input-group">
-                <label>Dedicated Off-Days (Select Multiple)</label>
-                <div class="pill-container" id="off-days-container">
-                    <div class="day-pill" data-day="Monday" onclick="togglePill(this)">M</div>
-                    <div class="day-pill" data-day="Tuesday" onclick="togglePill(this)">T</div>
-                    <div class="day-pill" data-day="Wednesday" onclick="togglePill(this)">W</div>
-                    <div class="day-pill" data-day="Thursday" onclick="togglePill(this)">Th</div>
-                    <div class="day-pill" data-day="Friday" onclick="togglePill(this)">F</div>
-                    <div class="day-pill" data-day="Saturday" onclick="togglePill(this)">S</div>
-                    <div class="day-pill active" data-day="Sunday" onclick="togglePill(this)">Su</div>
+                <div class="input-group">
+                    <label>Dedicated Off-Days (Select Multiple)</label>
+                    <div class="pill-container" id="off-days-container">
+                        <div class="day-pill" data-day="Monday" onclick="togglePill(this)">M</div>
+                        <div class="day-pill" data-day="Tuesday" onclick="togglePill(this)">T</div>
+                        <div class="day-pill" data-day="Wednesday" onclick="togglePill(this)">W</div>
+                        <div class="day-pill" data-day="Thursday" onclick="togglePill(this)">Th</div>
+                        <div class="day-pill" data-day="Friday" onclick="togglePill(this)">F</div>
+                        <div class="day-pill" data-day="Saturday" onclick="togglePill(this)">S</div>
+                        <div class="day-pill active" data-day="Sunday" onclick="togglePill(this)">Su</div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <button class="main-btn" onclick="initiateComeback()">Cook My Plan</button>
@@ -199,12 +217,20 @@
         <div class="progress-status" id="journey-status">0 / 0 Targets Destroyed</div>
     </div>
 
+    <div id="live-alert-panel">
+        <div class="alert-header" id="alert-text">Plan Notification Panel Loaded.</div>
+        <div class="alert-actions">
+            <button class="mini-btn btn-extend" onclick="resolveOptionA()">Do Them After Plan Ends</button>
+            <button class="mini-btn btn-recook" onclick="resolveOptionB()">Re-Cook Remaining Days</button>
+        </div>
+    </div>
+
     <div id="plan-container"></div>
 
     <div class="modal-overlay" id="deadline-modal">
         <div class="modal-box">
             <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
-            <div style="font-size: 20px; font-weight: 800; margin-bottom: 15px;" id="deadline-modal-title">Deadline Impossible</div>
+            <div style="font-size: 20px; font-weight: 800; margin-bottom: 15px;">Deadline Impossible</div>
             <p style="color: var(--text-muted); font-size: 14px; line-height: 1.5;" id="deadline-modal-text">Inputs cannot safely fit this schedule parameters ceiling.</p>
             <div class="modal-actions-stacked">
                 <button class="stacked-btn btn-purple" onclick="handleDeadlineChoice(1)">Show Full Extended Journey</button>
@@ -227,7 +253,7 @@
     <footer>Made by a student, <span>Chaitanya Sharma</span>, to help students in their journey to success.</footer>
 
     <script>
-        // High-Fidelity Audio Triggers Setup
+        // High-Fidelity Audio Triggers 
         const startPlanSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav'); 
         const taskSuccessWoohoo = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav'); 
         const taskFailureSad = new Audio('https://assets.mixkit.co/active_storage/sfx/1805/1805-84.wav'); 
@@ -253,12 +279,13 @@
             const randomIndex = Math.floor(Math.random() * quotesRepository.length);
             document.getElementById('motivation-quote').innerText = `"${quotesRepository[randomIndex].text}"`;
             document.getElementById('motivation-author').innerText = `— ${quotesRepository[randomIndex].author}`;
-            loadProgressFromStorage(); // Auto-recover saved engine data state if page reloads
+            loadProgressFromStorage(); 
         });
 
         let globalMasterPlan = [];
         let totalBacklogsToKill = 0;
         let killedBacklogs = 0;
+        let originalLeftoverCount = 0; // Restored from earlier versions
 
         function openModal(id) {
             let m = document.getElementById(id); m.style.display = 'flex';
@@ -270,32 +297,42 @@
         }
 
         function initiateComeback() {
-            startPlanSound.currentTime = 0; startPlanSound.play().catch(e => {});
+            startPlanSound.currentTime = 0; startPlanSound.play().catch(e => console.error("Audio block:", e));
+            document.getElementById('live-alert-panel').style.display = 'none';
+            originalLeftoverCount = 0;
+            killedBacklogs = 0;
             
             let backlogs = parseInt(document.getElementById('backlog-total').value);
             let dpps = parseInt(document.getElementById('dpp-total').value);
             let baseRegular = parseInt(document.getElementById('regular-classes').value);
             let maxDailyClasses = parseInt(document.getElementById('max-classes').value);
+            let maxDpps = parseInt(document.getElementById('max-dpps').value); // Newly restored input
             let targetDays = parseInt(document.getElementById('days-total').value);
             let chosenOffDays = getSelectedOffDays();
 
-            // Check if deadline fits within daily constraints parameters
             let tempBacklogs = backlogs;
+            let tempDpps = dpps;
             let neededDays = 0;
             let currentDate = new Date();
             let dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-            while(tempBacklogs > 0 && neededDays < 150) {
+            while((tempBacklogs > 0 || tempDpps > 0) && neededDays < 150) {
                 neededDays++;
                 let todayName = dayNames[currentDate.getDay()];
                 let isOffDay = chosenOffDays.includes(todayName);
+                
                 let slots = Math.max(0, maxDailyClasses - (isOffDay ? 0 : baseRegular));
-                tempBacklogs -= (isOffDay ? Math.min(slots, 3) : Math.min(slots, 2));
+                let bToday = isOffDay ? Math.min(slots, Math.min(3, tempBacklogs)) : Math.min(slots, Math.min(2, tempBacklogs));
+                tempBacklogs -= bToday;
+
+                let dToday = Math.min(maxDpps, tempDpps); // Uses the new daily DPP cap
+                tempDpps -= dToday;
+
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
             if (neededDays > targetDays) {
-                document.getElementById('deadline-modal-text').innerText = `Your daily limits structure require at least ${neededDays} days to clean all classes. Your requested deadline of ${targetDays} days is impossible. Choose an option below:`;
+                document.getElementById('deadline-modal-text').innerText = `Your strict daily limits require at least ${neededDays} days to finish all tasks. Your requested deadline of ${targetDays} days is impossible. Choose an option below:`;
                 openModal('deadline-modal');
             } else {
                 buildScheduleEngine(targetDays);
@@ -314,6 +351,7 @@
             let dpps = parseInt(document.getElementById('dpp-total').value);
             let baseRegular = parseInt(document.getElementById('regular-classes').value);
             let maxDailyClasses = parseInt(document.getElementById('max-classes').value);
+            let maxDpps = parseInt(document.getElementById('max-dpps').value);
             let chosenOffDays = getSelectedOffDays();
 
             totalBacklogsToKill = backlogs + dpps;
@@ -333,7 +371,7 @@
                 let backlogsToday = isOffDay ? Math.min(availableSlots, Math.min(3, backlogs)) : Math.min(availableSlots, Math.min(2, backlogs));
                 backlogs -= backlogsToday;
 
-                let dppsToday = backlogsToday > 0 ? Math.min(dpps, backlogsToday) : Math.min(dpps, 1);
+                let dppsToday = Math.min(maxDpps, dpps); // Applies the Max DPP limit perfectly
                 dpps -= dppsToday;
 
                 globalMasterPlan.push({
@@ -343,6 +381,8 @@
                 });
                 currentDate.setDate(currentDate.getDate() + 1);
             }
+
+            originalLeftoverCount = backlogs + dpps; // Stores the leftover variables from impossible deadlines!
 
             saveProgressToStorage();
             renderInterfaceCards();
@@ -374,6 +414,7 @@
                 `;
                 container.appendChild(card);
             });
+            evaluateAlertState(); // Brings back the bottom leftover warning system
             updateJourneyVisuals();
         }
 
@@ -385,17 +426,16 @@
             recalculateKilledCount();
             saveProgressToStorage();
 
-            // Evaluation Engine for Total Completion vs Daily completion sounds
             let rawPercentage = (killedBacklogs / totalBacklogsToKill) * 100;
             if (rawPercentage >= 100) {
-                completeTrophySound.currentTime = 0; completeTrophySound.play().catch(e=>{});
+                completeTrophySound.currentTime = 0; completeTrophySound.play().catch(e=>console.error(e));
                 document.getElementById('celebration-icon').innerText = "🏆";
                 document.getElementById('celebration-title').innerText = "MISSION ACCOMPLISHED!";
-                document.getElementById('celebration-subtitle').innerText = "You completely destroyed your backlog journey! Final Score:";
+                document.getElementById('celebration-subtitle').innerText = "You completely destroyed your backlog! Final Result:";
                 document.getElementById('reward-display').innerText = "🎯 100% ELITE TRAJECTORY LOCKED";
                 openModal('reward-modal');
             } else {
-                taskSuccessWoohoo.currentTime = 0; taskSuccessWoohoo.play().catch(e=>{});
+                taskSuccessWoohoo.currentTime = 0; taskSuccessWoohoo.play().catch(e=>console.error(e));
                 let userReward = document.getElementById('daily-reward').value;
                 if(userReward.trim() !== "") {
                     document.getElementById('celebration-icon').innerText = "⭐";
@@ -414,7 +454,7 @@
             if(targetItem.status === 'crossed') return;
             targetItem.status = 'crossed';
             
-            taskFailureSad.currentTime = 0; taskFailureSad.play().catch(e=>{});
+            taskFailureSad.currentTime = 0; taskFailureSad.play().catch(e=>console.error(e));
             recalculateKilledCount();
             saveProgressToStorage();
             renderInterfaceCards();
@@ -435,20 +475,62 @@
             document.getElementById('journey-title').innerText = `RACE TO SUCCESS (${percentage}%)`;
             document.getElementById('journey-status').innerText = `${killedBacklogs} / ${totalBacklogsToKill} Targets Destroyed`;
             if(percentage === 100) { document.getElementById('journey-title').style.color = "#22c55e"; }
+            else { document.getElementById('journey-title').style.color = 'var(--text-main)'; }
         }
 
-        // Persistent Client Side LocalStorage Engine Sync Data Keys
+        // Restored Alert State for Leftover/Failed Tasks
+        function evaluateAlertState() {
+            let crossedMissed = 0;
+            globalMasterPlan.forEach(item => { if(item.status === 'crossed') { crossedMissed += (item.back + item.dpp); } });
+            
+            let accumulatedLeftoverBalance = originalLeftoverCount + crossedMissed;
+            let alertBox = document.getElementById('live-alert-panel');
+            
+            if(accumulatedLeftoverBalance > 0) {
+                document.getElementById('alert-text').innerText = `⚠️ Alert: You have ${accumulatedLeftoverBalance} assignments left over after Day ${globalMasterPlan.length}.`;
+                alertBox.style.display = 'flex';
+            } else {
+                alertBox.style.display = 'none';
+            }
+        }
+
+        function resolveOptionA() {
+            let currentTotalBacklogs = parseInt(document.getElementById('backlog-total').value);
+            document.getElementById('backlog-total').value = currentTotalBacklogs + originalLeftoverCount;
+            globalMasterPlan.forEach(p => { if(p.status === 'crossed') p.status = 'checked'; });
+            buildScheduleEngine(150); // Gives it plenty of room to append
+        }
+
+        function resolveOptionB() {
+            let crossedMissed = 0;
+            globalMasterPlan.forEach(item => { if(item.status === 'crossed') { crossedMissed += (item.back + item.dpp); } });
+            let pool = originalLeftoverCount + crossedMissed;
+
+            let remainingDays = globalMasterPlan.filter(p => p.status === 'pending').length;
+            if(remainingDays <= 1) { resolveOptionA(); return; }
+
+            globalMasterPlan.forEach(p => {
+                if(p.status === 'pending' && pool > 0) { p.back += 1; pool--; }
+                if(p.status === 'crossed') { p.status = 'checked'; }
+            });
+            renderInterfaceCards();
+        }
+
+        // Persistent Client Side Storage Engine
         function saveProgressToStorage() {
             localStorage.setItem('chaitanya_master_plan', JSON.stringify(globalMasterPlan));
             localStorage.setItem('chaitanya_total_targets', totalBacklogsToKill);
+            localStorage.setItem('chaitanya_leftovers', originalLeftoverCount);
         }
 
         function loadProgressFromStorage() {
             let savedPlan = localStorage.getItem('chaitanya_master_plan');
             let savedTotal = localStorage.getItem('chaitanya_total_targets');
+            let savedLeft = localStorage.getItem('chaitanya_leftovers');
             if (savedPlan && savedTotal) {
                 globalMasterPlan = JSON.parse(savedPlan);
                 totalBacklogsToKill = parseInt(savedTotal);
+                originalLeftoverCount = savedLeft ? parseInt(savedLeft) : 0;
                 recalculateKilledCount();
                 document.getElementById('journey-visual-container').style.display = 'flex';
                 renderInterfaceCards();
