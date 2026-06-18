@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9634112651553540"
-     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backlog Killer | Mission Comeback</title>
@@ -132,6 +130,7 @@
         .legal-link { color: var(--text-muted); text-decoration: underline; cursor: pointer; transition: color 0.2s; }
         .legal-link:hover { color: var(--text-main); }
     </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9634112651553540" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -437,8 +436,9 @@
                 let todayName = dayNames[currentDate.getDay()];
                 let isOffDay = chosenOffDays.includes(todayName);
                 
+                // BUG FIX: Strictly obeys available slots without artificial limits
                 let slots = Math.max(0, maxDailyClasses - (isOffDay ? 0 : baseRegular));
-                let bToday = isOffDay ? Math.min(slots, Math.min(3, tempBacklogs)) : Math.min(slots, Math.min(2, tempBacklogs));
+                let bToday = Math.min(slots, tempBacklogs);
                 tempBacklogs -= bToday;
                 let dToday = Math.min(maxDpps, tempDpps);
                 tempDpps -= dToday;
@@ -480,9 +480,10 @@
 
                 let todayName = dayNames[currentDate.getDay()];
                 let isOffDay = chosenOffDays.includes(todayName);
-                let availableSlots = Math.max(0, maxDailyClasses - (isOffDay ? 0 : baseRegular));
                 
-                let backlogsToday = isOffDay ? Math.min(availableSlots, Math.min(3, backlogs)) : Math.min(availableSlots, Math.min(2, backlogs));
+                // BUG FIX: Strictly obeys available slots without artificial limits
+                let availableSlots = Math.max(0, maxDailyClasses - (isOffDay ? 0 : baseRegular));
+                let backlogsToday = Math.min(availableSlots, backlogs);
                 backlogs -= backlogsToday;
                 let dppsToday = Math.min(maxDpps, dpps); 
                 dpps -= dppsToday;
@@ -676,8 +677,9 @@
                 let todayName = dayNames[nextDate.getDay()];
                 let isOffDay = chosenOffDays.includes(todayName);
                 
+                // BUG FIX: Strictly obeys available slots without artificial limits
                 let availableSlots = Math.max(0, maxDailyClasses - (isOffDay ? 0 : baseRegular));
-                let bToday = isOffDay ? Math.min(availableSlots, Math.min(3, missedBacklogs)) : Math.min(availableSlots, Math.min(2, missedBacklogs));
+                let bToday = Math.min(availableSlots, missedBacklogs);
                 missedBacklogs -= bToday;
 
                 let dToday = Math.min(maxDpps, missedDpps);
