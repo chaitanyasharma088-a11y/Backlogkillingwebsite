@@ -48,10 +48,17 @@
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
+        /* Top Layout Bar for Header Elements */
+        .top-bar {
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
         #theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             background: var(--container-bg);
             border: 1px solid var(--border-color);
             color: var(--text-main);
@@ -66,8 +73,12 @@
             transition: all 0.3s ease;
         }
 
+        #theme-toggle:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
         .bangle {
-            margin-top: 60px;
             padding: 6px 16px;
             background: rgba(168, 85, 247, 0.1);
             border: 1px solid rgba(168, 85, 247, 0.3);
@@ -128,40 +139,42 @@
         button.main-btn { width: 100%; padding: 16px; background: var(--btn-bg); color: var(--btn-text); border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s, opacity 0.2s; }
         button.main-btn:hover { transform: translateY(-2px); opacity: 0.9; }
 
-        /* Journey Progress Track */
+        /* Progress Visual Engine */
         #journey-visual-container { width: 90%; max-width: 600px; margin-top: 40px; padding: 25px; background: var(--container-bg); border: 1px solid var(--border-color); border-radius: 16px; display: none; flex-direction: column; align-items: center; }
         .journey-track { position: relative; width: 100%; height: 12px; background: var(--border-color); border-radius: 50px; margin-top: 25px; margin-bottom: 10px; }
         .runner-icon { position: absolute; left: 0%; top: -30px; width: 32px; height: 32px; color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; transform: translateX(-50%) scaleX(-1); transition: left 0.6s cubic-bezier(0.33, 1, 0.68, 1); }
         .success-icon { position: absolute; right: -10px; top: -30px; font-size: 20px; }
         .progress-status { font-size: 14px; color: var(--text-muted); font-weight: 600; }
 
-        /* Dynamic Balance Alert Panel */
-        #live-alert-panel { width: 90%; max-width: 600px; margin-top: 30px; background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, var(--container-bg) 100%); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px; padding: 20px; display: none; flex-direction: column; gap: 15px; }
-        .alert-header { font-size: 15px; font-weight: 700; color: #fca5a5; }
+        /* Dynamic Alert System */
+        #live-alert-panel { width: 90%; max-width: 600px; margin-top: 30px; background: linear-gradient(90deg, rgba(239, 68, 68, 0.15) 0%, var(--container-bg) 100%); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 20px; display: none; flex-direction: column; gap: 15px; }
+        .alert-header { font-size: 15px; font-weight: 700; color: #fca5a5; line-height: 1.4; }
         .alert-actions { display: flex; gap: 12px; }
         .mini-btn { padding: 8px 14px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; border: none; }
         .btn-extend { background: var(--accent); color: white; }
         .btn-recook { background: var(--pill-bg); color: var(--text-main); border: 1px solid var(--border-color); }
 
-        /* Plan Schedule */
+        /* Plan Layout */
         #plan-container { width: 90%; max-width: 600px; margin-top: 20px; margin-bottom: 40px; display: flex; flex-direction: column; gap: 12px; }
         .day-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease; }
         .card-left { display: flex; align-items: center; gap: 14px; }
         .action-buttons { display: flex; gap: 8px; }
 
-        .status-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--pill-bg); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .status-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--pill-bg); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; font-weight: bold; }
         .btn-check:hover, .day-card.status-checked .btn-check { background: #22c55e; color: white; border-color: #22c55e; }
         .btn-cross:hover, .day-card.status-crossed .btn-cross { background: #ef4444; color: white; border-color: #ef4444; }
 
         .day-card.status-checked { opacity: 0.5; background: rgba(34, 197, 94, 0.02); }
         .day-card.status-checked .backlog-text, .day-card.status-checked .dpp-text { text-decoration: line-through; color: var(--text-muted); }
-        .day-card.status-crossed { border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.02); }
+        
+        .day-card.status-crossed { border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.04); }
         .day-card.status-crossed .backlog-text, .day-card.status-crossed .dpp-text { color: #f87171; }
         .day-card.off-day { border-left: 4px solid var(--accent); }
 
         .day-info { display: flex; flex-direction: column; gap: 4px; }
         .day-name { font-size: 16px; font-weight: 700; color: var(--text-main); }
         .date-text { font-size: 13px; color: var(--text-muted); }
+        
         .workload-info { text-align: right; display: flex; flex-direction: column; gap: 4px; }
         .backlog-text { font-size: 15px; font-weight: 700; color: var(--text-main); }
         .dpp-text { font-size: 14px; font-weight: 600; color: var(--accent); }
@@ -174,7 +187,7 @@
         }
         .floating-emoji { position: absolute; left: 30px; font-size: 24px; pointer-events: none; animation: thumbsUpPop 0.8s ease-out forwards; }
 
-        /* Reward Pop-up Modal */
+        /* Reward Pop-up Box */
         #reward-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: none; align-items: center; justify-content: center; z-index: 1000; opacity: 0; transition: opacity 0.3s ease; }
         .reward-content { background: var(--bg-color); border: 1px solid var(--accent); padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 0 50px rgba(168, 85, 247, 0.2); }
         .reward-icon { font-size: 50px; margin-bottom: 15px; }
@@ -188,9 +201,11 @@
 </head>
 <body>
 
-    <button id="theme-toggle" onclick="toggleTheme()">☀️</button>
+    <div class="top-bar">
+        <div class="bangle">🔥 Mission Comeback</div>
+        <button id="theme-toggle" onclick="toggleTheme()">☀️</button>
+    </div>
 
-    <div class="bangle">🔥 Mission Comeback</div>
     <h1>Backlog Killer Plan</h1>
     
     <div class="quote-box">
@@ -266,11 +281,11 @@
             <div class="runner-icon" id="runner">🏃</div>
             <div class="success-icon">🚩</div>
         </div>
-        <div class="progress-status" id="journey-status">0 / 0 Items Destroyed</div>
+        <div class="progress-status" id="journey-status">0 / 0 Targets Destroyed</div>
     </div>
 
     <div id="live-alert-panel">
-        <div class="alert-header" id="alert-text">Plan Alert: Remaining backlogs left over.</div>
+        <div class="alert-header" id="alert-text">Plan Notification Panel Loaded.</div>
         <div class="alert-actions">
             <button class="mini-btn btn-extend" onclick="resolveOptionA()">Do Them After Plan Ends</button>
             <button class="mini-btn btn-recook" onclick="resolveOptionB()">Re-Cook Remaining Days</button>
@@ -294,8 +309,8 @@
     </footer>
 
     <script>
-        // Open-Source High-Quality Winning Chime
-        const successAudio = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav');
+        // High-Quality Clear Audio Sound Profile
+        const winningSoundChime = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav');
 
         let isLightMode = false;
         function toggleTheme() {
@@ -322,11 +337,11 @@
         let globalMasterPlan = [];
         let totalBacklogsToKill = 0;
         let killedBacklogs = 0;
-        let totalLeftoverClasses = 0;
+        let originalLeftoverCount = 0;
 
         function initiateComeback() {
             document.getElementById('live-alert-panel').style.display = 'none';
-            totalLeftoverClasses = 0;
+            originalLeftoverCount = 0;
             killedBacklogs = 0;
             buildScheduleEngine();
         }
@@ -338,12 +353,11 @@
             let backlogs = parseInt(document.getElementById('backlog-total').value);
             let dpps = parseInt(document.getElementById('dpp-total').value);
             let duration = parseFloat(document.getElementById('class-duration').value);
-            let targetDays = parseInt(document.getElementById('days-total').value);
+            let targetDays = Math.max(1, parseInt(document.getElementById('days-total').value));
             let baseRegular = parseInt(document.getElementById('regular-classes').value);
             let maxDailyClasses = parseInt(document.getElementById('max-classes').value);
             let chosenOffDays = getSelectedOffDays();
 
-            // Total target items = classes + DPP tasks combined
             totalBacklogsToKill = backlogs + dpps;
             
             let currentDate = new Date();
@@ -357,13 +371,13 @@
                 let isOffDay = chosenOffDays.includes(todayName);
                 
                 let regularToday = isOffDay ? 0 : baseRegular;
+                
+                // Strictly calculate slots left using the daily capacity ceiling metric
                 let availableSlots = Math.max(0, maxDailyClasses - regularToday);
                 
-                // Allocate classes safely inside max cap parameters
                 let backlogsToday = isOffDay ? Math.min(availableSlots, Math.min(3, backlogs)) : Math.min(availableSlots, Math.min(2, backlogs));
                 backlogs -= backlogsToday;
 
-                // Allocate DPP balances alongside active workload
                 let dppsToday = backlogsToday > 0 ? Math.min(dpps, backlogsToday) : Math.min(dpps, 1);
                 dpps -= dppsToday;
 
@@ -381,8 +395,7 @@
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
-            // Capture any remaining left-over tasks if target deadline was exceeded
-            totalLeftoverClasses = backlogs + dpps;
+            originalLeftoverCount = backlogs + dpps;
             renderInterfaceCards();
             document.getElementById('journey-visual-container').style.display = 'flex';
         }
@@ -431,11 +444,10 @@
             
             targetItem.status = 'checked';
             
-            // Audio Feedback Engine Trigger
-            successAudio.currentTime = 0;
-            successAudio.play().catch(e => console.log("Audio ready after user tap interaction profile context configuration."));
+            // Audio Feedback execution
+            winningSoundChime.currentTime = 0;
+            winningSoundChime.play().catch(e => console.log("Audio pipeline loaded successfully."));
 
-            // Animation Popup Effect
             let card = document.getElementById(`day-card-${dayNum}`);
             let emoji = document.createElement('div');
             emoji.className = 'floating-emoji';
@@ -446,7 +458,6 @@
             recalculateKilledCount();
             renderInterfaceCards();
 
-            // Reward System Check
             let userReward = document.getElementById('daily-reward').value;
             if(userReward.trim() !== "") {
                 document.getElementById('reward-display').innerText = userReward;
@@ -460,6 +471,7 @@
         function markCrossed(dayNum) {
             let targetItem = globalMasterPlan.find(p => p.dayNum === dayNum);
             if(targetItem.status === 'crossed') return;
+            
             targetItem.status = 'crossed';
             recalculateKilledCount();
             renderInterfaceCards();
@@ -475,11 +487,7 @@
 
         function recalculateKilledCount() {
             let count = 0;
-            globalMasterPlan.forEach(item => { 
-                if(item.status === 'checked') { 
-                    count += (item.back + item.dpp); 
-                } 
-            });
+            globalMasterPlan.forEach(item => { if(item.status === 'checked') { count += (item.back + item.dpp); } });
             killedBacklogs = count;
         }
 
@@ -499,11 +507,11 @@
             let crossedMissed = 0;
             globalMasterPlan.forEach(item => { if(item.status === 'crossed') { crossedMissed += (item.back + item.dpp); } });
             
-            let totalRemainingUnfinished = totalLeftoverClasses + crossedMissed;
+            let accumulatedLeftoverBalance = originalLeftoverCount + crossedMissed;
             let alertBox = document.getElementById('live-alert-panel');
             
-            if(totalRemainingUnfinished > 0) {
-                document.getElementById('alert-text').innerText = `⚠️ Schedule Alert: Due to restrictions or missed targets, you will have ${totalRemainingUnfinished} items remaining left over after Day ${globalMasterPlan.length}.`;
+            if(accumulatedLeftoverBalance > 0) {
+                document.getElementById('alert-text').innerText = `⚠️ Schedule Alert: Due to your daily class limit structure or missed items, you have ${accumulatedLeftoverBalance} assignments left over after Day ${globalMasterPlan.length}. Use the options below to balance them!`;
                 alertBox.style.display = 'flex';
             } else {
                 alertBox.style.display = 'none';
@@ -512,7 +520,7 @@
 
         function resolveOptionA() {
             let currentTotalBacklogs = parseInt(document.getElementById('backlog-total').value);
-            document.getElementById('backlog-total').value = currentTotalBacklogs + totalLeftoverClasses;
+            document.getElementById('backlog-total').value = currentTotalBacklogs + originalLeftoverCount;
             globalMasterPlan.forEach(p => { if(p.status === 'crossed') p.status = 'checked'; });
             buildScheduleEngine();
         }
@@ -520,7 +528,7 @@
         function resolveOptionB() {
             let crossedMissed = 0;
             globalMasterPlan.forEach(item => { if(item.status === 'crossed') { crossedMissed += (item.back + item.dpp); } });
-            let pool = totalLeftoverClasses + crossedMissed;
+            let pool = originalLeftoverCount + crossedMissed;
 
             let remainingDays = globalMasterPlan.filter(p => p.status === 'pending').length;
             if(remainingDays <= 1) { resolveOptionA(); return; }
